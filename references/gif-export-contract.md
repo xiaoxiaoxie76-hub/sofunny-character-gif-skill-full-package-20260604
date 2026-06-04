@@ -53,11 +53,14 @@ If frozen art needs repair, create a new candidate round, repair before freeze, 
 
 ```text
 animation.gif
+animation-transparent.gif
 animation_checker.gif
 animation.webp
 sheet-transparent.png
 locked_gif_export_report.json
 ```
+
+`animation.gif` is the compatibility preview and should use a white matte RGB export to avoid transparent GIF palette damage. `animation-transparent.gif` is a diagnostic 1-bit-alpha GIF only. Prefer `animation.webp` or `sheet-transparent.png` when true RGBA edges must be preserved.
 
 The report must include:
 

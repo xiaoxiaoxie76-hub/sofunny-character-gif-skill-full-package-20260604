@@ -1,0 +1,95 @@
+{
+  "schema_version": "sofunny-action-contract.v1",
+  "action": "gentle_bow_flower_sway",
+  "display_name": "gentle bow with flower and hair sway",
+  "default_frames": 16,
+  "anchor_policy": "fit-ground",
+  "atlas_contract": {
+    "layout": "grid",
+    "rows": 4,
+    "columns": 4,
+    "background": "white_or_green",
+    "safe_margin_ratio": 0.12,
+    "gutter_required": true,
+    "forbid_edge_touching": true,
+    "forbid_neighbor_fragments": true
+  },
+  "projection_contract": {
+    "height_curve": "decrease_hold_increase",
+    "max_adjacent_height_delta_ratio": 0.13,
+    "max_standing_height_delta_ratio": 0.02,
+    "bottom_anchor": "stable",
+    "scale": "sequence_locked",
+    "character_volume": "stable_except_pose_projection"
+  },
+  "identity_contract": {
+    "preserve_local_proportions": [
+      "head_size",
+      "face_shape",
+      "hair_bun_size",
+      "flower_accessory_size",
+      "torso_length",
+      "dress_length",
+      "sleeve_width",
+      "skirt_width"
+    ],
+    "forbid": [
+      "frame-to-frame body shrink unrelated to bow projection",
+      "redrawn head smaller or larger than adjacent frames",
+      "dress or sleeve length changing without pose cause",
+      "cropped hair, flowers, hands, sleeves, dress, or hem"
+    ]
+  },
+  "phases": [
+    {"frame": 0, "name": "standing_ready", "body": "upright; full height visible", "hands": "separate at sides or beginning to move inward"},
+    {"frame": 1, "name": "hands_move_inward", "body": "upright with tiny anticipation only; no body shrink", "hands": "moving toward front center"},
+    {"frame": 2, "name": "hands_join_start_bow", "body": "torso begins bending forward; visible height starts decreasing by projection", "hands": "joined in front of chest/body"},
+    {"frame": 3, "name": "bow_down_a", "body": "head and torso continue down; bottom anchor stable", "hands": "joined and stable"},
+    {"frame": 4, "name": "bow_down_b", "body": "deeper bow; dress compresses only by projection", "hands": "joined and partly covered by sleeves"},
+    {"frame": 5, "name": "deep_bow_enter", "body": "near deepest bow", "hands": "joined"},
+    {"frame": 6, "name": "deep_bow_hold_a", "body": "deepest bow hold", "hands": "joined"},
+    {"frame": 7, "name": "deep_bow_hold_b", "body": "deep bow hold with hair/flower secondary sway", "hands": "joined"},
+    {"frame": 8, "name": "deep_bow_exit", "body": "still bowed; begins to rise", "hands": "joined"},
+    {"frame": 9, "name": "rise_a", "body": "torso rises; visible height increases", "hands": "joined or starting to release"},
+    {"frame": 10, "name": "rise_b", "body": "more upright; height continues increasing", "hands": "moving apart"},
+    {"frame": 11, "name": "rise_c", "body": "almost upright", "hands": "separating naturally"},
+    {"frame": 12, "name": "standing_recover_a", "body": "upright recovery; full head/accessories visible", "hands": "separate at sides"},
+    {"frame": 13, "name": "standing_recover_b", "body": "upright settle", "hands": "separate"},
+    {"frame": 14, "name": "standing_recover_c", "body": "upright; secondary hair/flower sway settles", "hands": "separate"},
+    {"frame": 15, "name": "loop_return", "body": "matches frame 0 posture and scale", "hands": "separate, ready to loop"}
+  ],
+  "hard_requirements": [
+    "one consistent character, same local proportions in every frame",
+    "bottom/ground baseline stays stable",
+    "visible height decreases during bow-down, holds around the deepest bow, then increases during rise",
+    "hands move from separate to joined during the bow and separate again during recovery",
+    "hair ornaments and flowers sway secondarily but remain same size and fully visible",
+    "every frame keeps empty safe margin on all four sides inside its atlas cell"
+  ],
+  "reject_if": [
+    "any frame clips the top hair/flowers or bottom dress/feet",
+    "frame 0 to frame 1 changes body length without a bow cause",
+    "hands remain in the same state for the entire action",
+    "hands are joined during standing recovery frames 12-15",
+    "standing frames 12-15 have cropped top accessories",
+    "body appears to shrink instead of rotate/bend",
+    "character scale or local proportions drift frame-to-frame"
+  ],
+  "semantic_audit": {
+    "height_curve": {
+      "down_frames": [0, 1, 2, 3, 4, 5, 6],
+      "hold_frames": [6, 7, 8],
+      "up_frames": [8, 9, 10, 11, 12, 13, 14, 15],
+      "standing_lock_frames": [0, 1],
+      "max_standing_height_delta_ratio": 0.02,
+      "max_adjacent_height_delta_ratio": 0.13
+    },
+    "hand_phase_review_required": true,
+    "expected_hand_states": {
+      "0-1": "separate_or_moving_inward",
+      "2-8": "joined",
+      "9-11": "releasing",
+      "12-15": "separate"
+    }
+  }
+}

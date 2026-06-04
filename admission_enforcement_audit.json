@@ -1,8 +1,8 @@
 {
   "schema_version": "sofunny-admission-enforcement-audit.v1",
-  "generated_at": "2026-06-04T15:38:50.465308+00:00",
+  "generated_at": "2026-06-04T16:12:39.242989+00:00",
   "status": "pass",
-  "skill_root": "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604",
+  "skill_root": "/Users/archiesun/.codex/skills/sofunny-character-gif",
   "required_artifacts": {
     "by_source": {
       "SKILL.md:Admission Boundary": [

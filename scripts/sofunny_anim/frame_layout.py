@@ -15,18 +15,27 @@ def split_horizontal_sheet(image: Image.Image, frames: int) -> list[Image.Image]
     ]
 
 
-def split_grid_sheet(image: Image.Image, rows: int, columns: int) -> list[Image.Image]:
+def split_grid_sheet(image: Image.Image, rows: int, columns: int, *, allow_uneven: bool = False) -> list[Image.Image]:
     if rows <= 0 or columns <= 0:
         raise ValueError("rows and columns must be positive")
     width, height = image.size
-    if width % columns != 0 or height % rows != 0:
+    if not allow_uneven and (width % columns != 0 or height % rows != 0):
         raise ValueError("input dimensions are not divisible by rows/columns")
-    cell_w = width // columns
-    cell_h = height // rows
     frames = []
     for row in range(rows):
         for col in range(columns):
-            frames.append(image.crop((col * cell_w, row * cell_h, (col + 1) * cell_w, (row + 1) * cell_h)).convert("RGBA"))
+            if allow_uneven:
+                box = (
+                    round(col * width / columns),
+                    round(row * height / rows),
+                    round((col + 1) * width / columns),
+                    round((row + 1) * height / rows),
+                )
+            else:
+                cell_w = width // columns
+                cell_h = height // rows
+                box = (col * cell_w, row * cell_h, (col + 1) * cell_w, (row + 1) * cell_h)
+            frames.append(image.crop(box).convert("RGBA"))
     return frames
 
 

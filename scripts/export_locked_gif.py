@@ -12,12 +12,12 @@ from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageSequence
 
 from sofunny_anim.frame_layout import read_sequence, write_sequence
 from sofunny_anim.freeze_gate import PASS_VALUES, production_source_animation_route, read_json, require_freeze_gate
 from sofunny_anim.manifests import write_json
-from sofunny_anim.previews import save_checker_gif, save_contact_sheet, save_transparent_gif, save_transparent_sheet, save_webp
+from sofunny_anim.previews import save_checker_gif, save_contact_sheet, save_matte_gif, save_transparent_gif, save_transparent_sheet, save_webp
 from sofunny_anim.profiles import coalesce, get_path, load_profile
 
 
@@ -84,6 +84,31 @@ def expand_frames(frames: list[Image.Image], target_count: int) -> tuple[list[Im
         expanded.append(frames[source_index].copy())
         source_indices.append(source_index)
     return expanded, source_indices
+
+
+def decoded_gif_report(path: Path, expected_frames: int, expected_duration_ms: int) -> dict:
+    image = Image.open(path)
+    durations: list[int] = []
+    try:
+        for frame in ImageSequence.Iterator(image):
+            durations.append(int(frame.info.get("duration", 0) or 0))
+    finally:
+        image.close()
+    failures = []
+    if len(durations) != expected_frames:
+        failures.append(f"decoded GIF frame count {len(durations)} != expected {expected_frames}")
+    unexpected = sorted({duration for duration in durations if duration != expected_duration_ms})
+    if unexpected:
+        failures.append(f"decoded GIF durations {unexpected} differ from expected {expected_duration_ms}ms")
+    return {
+        "status": "pass" if not failures else "fail",
+        "path": str(path),
+        "expected_frame_count": expected_frames,
+        "decoded_frame_count": len(durations),
+        "expected_duration_ms": expected_duration_ms,
+        "decoded_durations_ms": durations,
+        "failures": failures,
+    }
 
 
 def maybe_optimize_with_gifsicle(path: Path, enabled: bool) -> dict:
@@ -208,16 +233,19 @@ def main() -> int:
     save_contact_sheet(source_frames, output_run / "keypose_contact_sheet.png", 192)
     save_contact_sheet(frames, output_run / "contact_sheet.png", 192)
     save_transparent_sheet(source_frames, output_run / "sheet-transparent.png")
-    save_transparent_gif(frames, output_run / "animation.gif", duration_ms)
+    save_matte_gif(frames, output_run / "animation.gif", duration_ms)
+    save_transparent_gif(frames, output_run / "animation-transparent.gif", duration_ms)
     save_checker_gif(frames, output_run / "animation_checker.gif", duration_ms)
     save_webp(frames, output_run / "animation.webp", duration_ms)
     optimizer = maybe_optimize_with_gifsicle(output_run / "animation.gif", args.optimize_gif)
+    gif_decode = decoded_gif_report(output_run / "animation.gif", len(frames), duration_ms)
     after_hashes = verify_hashes(run_dir, manifest)
     source_unchanged = bool(after_hashes) and all(item["match"] for item in after_hashes)
+    export_ok = source_unchanged and gif_decode["status"] == "pass"
     report = {
         "schema_version": "sofunny-locked-gif-export.v1",
         "created_at": datetime.now(timezone.utc).isoformat(),
-        "status": "pass" if source_unchanged else "fail",
+        "status": "pass" if export_ok else "fail",
         "approval_boundary": "Candidate export success is not production approval. Direct visual review and production_approved=true are still required.",
         "export_stage": args.stage,
         "candidate_only": args.stage != "production" or manifest.get("candidate_only") is True,
@@ -232,6 +260,7 @@ def main() -> int:
         "source_indices": source_indices,
         "reference_timing": reference_details,
         "optimizer": optimizer,
+        "gif_decode_report": gif_decode,
         "source_hashes_before": before_hashes,
         "source_hashes_after": after_hashes,
         "source_keyposes_unchanged": source_unchanged,
@@ -239,9 +268,15 @@ def main() -> int:
         "part_consistency": part_consistency,
         "outputs": {
             "animation_gif": str(output_run / "animation.gif"),
+            "animation_transparent_gif": str(output_run / "animation-transparent.gif"),
             "animation_checker_gif": str(output_run / "animation_checker.gif"),
             "animation_webp": str(output_run / "animation.webp"),
             "sheet_transparent": str(output_run / "sheet-transparent.png"),
+        },
+        "gif_export_mode": {
+            "animation_gif": "matte_rgb_white",
+            "animation_transparent_gif": "transparent_1bit_alpha_diagnostic",
+            "animation_webp": "lossless_rgba_preferred_for_alpha",
         },
     }
     write_json(output_run / "locked_gif_export_report.json", report)

@@ -9,7 +9,7 @@ from pathlib import Path
 from sofunny_anim.profiles import load_profile
 
 from sofunny_anim.frame_layout import read_sequence
-from sofunny_anim.previews import save_checker_gif, save_contact_sheet, save_transparent_gif, save_transparent_sheet, save_webp
+from sofunny_anim.previews import save_checker_gif, save_contact_sheet, save_matte_gif, save_transparent_gif, save_transparent_sheet, save_webp
 
 
 def main() -> int:
@@ -24,7 +24,8 @@ def main() -> int:
     save_contact_sheet(frames, run_dir / "contact_sheet.png", 256)
     save_contact_sheet(frames, run_dir / "contact_sheet_full_canvas.png", 192)
     save_transparent_sheet(frames, run_dir / "sheet-transparent.png")
-    save_transparent_gif(frames, run_dir / "animation.gif", args.duration_ms)
+    save_matte_gif(frames, run_dir / "animation.gif", args.duration_ms)
+    save_transparent_gif(frames, run_dir / "animation-transparent.gif", args.duration_ms)
     save_checker_gif(frames, run_dir / "animation_checker.gif", args.duration_ms)
     save_webp(frames, run_dir / "animation.webp", args.duration_ms)
     print(f"wrote SoFunny previews to {run_dir}")
@@ -33,4 +34,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

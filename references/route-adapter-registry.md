@@ -65,6 +65,30 @@ output_status = candidate video or extracted candidate frames
 route_reference = references/animatex-provider-route.md
 ```
 
+`mmpose_dwpose`:
+
+```text
+source = GitHub pose-estimation adapter
+allowed_use = whole-body / hand / face keypoint extraction from self-owned or de-identified motion references; pose-only guide generation before provider image generation
+allowed_routes = pose_conditioned_provider_candidate, external_animation_provider_candidate
+requires = de-identified motion input when donor material is used
+must_not = copy donor identity, costume, face, or body proportions
+output_status = pose-only guides and pose metrics, never final art
+route_reference = references/external-pose-animation-adapters.md
+```
+
+`animate_anyone`:
+
+```text
+source = GitHub pose-conditioned image-to-video character animation adapter
+allowed_use = reference-image character animation from pose guide sequence
+allowed_routes = pose_conditioned_provider_candidate, external_animation_provider_candidate
+requires = pose guide sequence, re-imported extracted frames, and SoFunny gates
+must_not = direct final GIF approval or hosted upload without explicit permission
+output_status = candidate video or extracted candidate frames
+route_reference = references/external-pose-animation-adapters.md
+```
+
 `spine_live2d_dragonbones`:
 
 ```text

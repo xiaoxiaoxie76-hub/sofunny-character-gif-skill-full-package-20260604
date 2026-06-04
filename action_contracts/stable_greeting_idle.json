@@ -1,0 +1,91 @@
+{
+  "schema_version": "sofunny-action-contract.v1",
+  "action": "stable_greeting_idle",
+  "display_name": "stable cute greeting idle",
+  "default_frames": 16,
+  "anchor_policy": "fit-ground",
+  "atlas_contract": {
+    "layout": "grid",
+    "rows": 4,
+    "columns": 4,
+    "background": "white_or_green",
+    "safe_margin_ratio": 0.18,
+    "gutter_required": true,
+    "forbid_edge_touching": true,
+    "forbid_neighbor_fragments": true
+  },
+  "projection_contract": {
+    "height_curve": "near_constant",
+    "max_adjacent_height_delta_ratio": 0.065,
+    "max_total_height_range_ratio": 0.08,
+    "bottom_anchor": "stable",
+    "scale": "sequence_locked",
+    "character_volume": "stable"
+  },
+  "identity_contract": {
+    "preserve_local_proportions": [
+      "head_size",
+      "face_shape",
+      "hair_bun_size",
+      "flower_accessory_size",
+      "torso_length",
+      "dress_length",
+      "sleeve_width",
+      "skirt_width",
+      "hand_size"
+    ],
+    "forbid": [
+      "frame-to-frame body shrink",
+      "redrawn head smaller or larger than adjacent frames",
+      "dress or sleeve length changing",
+      "cropped hair, flowers, hands, sleeves, dress, or hem",
+      "wide arm spread that changes the body bounding box"
+    ]
+  },
+  "phases": [
+    {"frame": 0, "name": "standing_ready", "body": "upright; full height visible", "hands": "relaxed near sides"},
+    {"frame": 1, "name": "hands_inward_a", "body": "upright; same height", "hands": "begin moving inward slightly"},
+    {"frame": 2, "name": "hands_inward_b", "body": "upright; same height", "hands": "near front torso"},
+    {"frame": 3, "name": "hands_join_a", "body": "upright; same height", "hands": "lightly joined near torso"},
+    {"frame": 4, "name": "hands_join_b", "body": "upright; same height", "hands": "joined, close to body"},
+    {"frame": 5, "name": "blink_a", "body": "upright; same height", "hands": "joined"},
+    {"frame": 6, "name": "sway_left", "body": "upright; same height", "hands": "joined or close to body"},
+    {"frame": 7, "name": "sway_right", "body": "upright; same height", "hands": "joined or close to body"},
+    {"frame": 8, "name": "hands_release_a", "body": "upright; same height", "hands": "begin moving apart slightly"},
+    {"frame": 9, "name": "hands_release_b", "body": "upright; same height", "hands": "close to sides"},
+    {"frame": 10, "name": "smile_sway", "body": "upright; same height", "hands": "relaxed"},
+    {"frame": 11, "name": "blink_b", "body": "upright; same height", "hands": "relaxed"},
+    {"frame": 12, "name": "settle_a", "body": "upright; same height", "hands": "relaxed"},
+    {"frame": 13, "name": "settle_b", "body": "upright; same height", "hands": "relaxed"},
+    {"frame": 14, "name": "settle_c", "body": "upright; same height", "hands": "same size as recovery frames"},
+    {"frame": 15, "name": "loop_return", "body": "matches frame 0 posture and scale", "hands": "relaxed"}
+  ],
+  "hard_requirements": [
+    "one consistent character, same local proportions in every frame",
+    "bottom/ground baseline stays stable",
+    "visible character height stays nearly constant",
+    "hands stay close to body and never spread wide",
+    "hair ornaments and flowers may sway secondarily but remain same size and fully visible",
+    "every frame keeps empty safe margin on all four sides inside its atlas cell"
+  ],
+  "reject_if": [
+    "any frame clips the top hair/flowers or bottom dress/feet",
+    "any frame bows, crouches, shrinks, or changes visible height abruptly",
+    "hands become larger in frame 14 than frames 12, 13, or 15",
+    "character scale or local proportions drift frame-to-frame",
+    "adjacent frames are exact duplicates"
+  ],
+  "semantic_audit": {
+    "height_curve": {
+      "mode": "near_constant",
+      "max_adjacent_height_delta_ratio": 0.065,
+      "max_total_height_range_ratio": 0.08
+    },
+    "hand_phase_review_required": true,
+    "expected_hand_states": {
+      "0-2": "relaxed_or_moving_inward",
+      "3-7": "joined_or_close_to_body",
+      "8-15": "relaxed_or_settling"
+    }
+  }
+}

@@ -31,6 +31,8 @@ Load only the reference needed for the current task:
 - `references/animatex-provider-route.md`: Animate-X as a large full-body video candidate adapter.
 - `references/external-adapter-license-notes.md`: license, IP, and hosted-upload boundary notes for external adapters.
 - `references/provider-output-contract.md`: exact provider output requirements before import.
+- `references/action-contract-schema.md`: reusable action contract shape for non-hardcoded actions.
+- `references/external-pose-animation-adapters.md`: MMPose/DWPose, AnimateAnyone, MagicAnimate, and ToonCrafter adapter boundaries.
 - `references/pose-only-guide-contract.md`: required de-identification rules before using motion references.
 - `references/source-animation-route.md`: when production GIFs must use part-based source animation instead of full-frame redraw.
 - `references/source-animation-route-matrix.md`: action-to-source-route selection and full-frame redraw blocking.
@@ -119,7 +121,7 @@ candidate sheet
 -> deterministic GIF export, localized redraw before new freeze, or regeneration
 ```
 
-Use `generate_candidate_sheet.py`, `generate_reference_locked_jog.py`, or `generate_atlas_retargeted_jog.py` as local fallback or diagnostic routes unless the reference explicitly marks the output admission-eligible. Label weak local fallback output as pipeline smoke.
+Do not use `generate_candidate_sheet.py`, `generate_reference_locked_jog.py`, `generate_reference_locked_bow.py`, or `generate_atlas_retargeted_jog.py` as a default user-facing fallback. These are diagnostic smoke routes only unless the reference explicitly marks the output admission-eligible. If provider/model sheet import fails, regenerate or re-import a valid sheet; do not silently return local pseudo-rig output.
 
 For fixed-cell sprite output, pass accepted SoFunny-gated frames or strips to `game-character-sprites` packaging conventions only after identity, motion, and admission gates are credible.
 

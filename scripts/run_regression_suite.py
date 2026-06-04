@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import colorsys
 import json
 import math
 import subprocess
@@ -779,6 +780,507 @@ def run_coin_action_contract_smoke(temp_root: Path) -> CommandResult:
     )
 
 
+def median_saturation(path: Path, frame_index: int = 0, *, ignore_near_white: bool = False) -> float:
+    image = Image.open(path)
+    if getattr(image, "n_frames", 1) > 1:
+        image.seek(frame_index)
+    values: list[float] = []
+    for r, g, b, a in image.convert("RGBA").getdata():
+        if a:
+            if ignore_near_white and r >= 245 and g >= 245 and b >= 245:
+                continue
+            values.append(colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)[1])
+    if not values:
+        return 0.0
+    ordered = sorted(values)
+    return float(ordered[len(ordered) // 2])
+
+
+def run_provider_packaging_quality_smoke(temp_root: Path) -> CommandResult:
+    run_dir = temp_root / "provider_packaging_quality"
+    sheet = temp_root / "uneven_white_provider_sheet.png"
+    cell_w = 101
+    cell_h = 101
+    image = Image.new("RGB", (cell_w * 2, cell_h * 2), (255, 255, 255))
+    draw = ImageDraw.Draw(image)
+    for index in range(4):
+        row, col = divmod(index, 2)
+        ox = col * cell_w
+        oy = row * cell_h
+        dx = index * 2
+        draw.ellipse((ox + 33 + dx, oy + 9, ox + 67 + dx, oy + 43), fill=(118, 82, 54), outline=(35, 28, 24), width=2)
+        draw.polygon(
+            [(ox + 27 + dx, oy + 44), (ox + 74 + dx, oy + 44), (ox + 86 + dx, oy + 88), (ox + 16 + dx, oy + 88)],
+            fill=(248, 248, 242),
+            outline=(72, 92, 78),
+        )
+        draw.rectangle((ox + 21 + dx, oy + 47, ox + 34 + dx, oy + 80), fill=(82, 166, 128), outline=(32, 82, 62))
+        draw.rectangle((ox + 68 + dx, oy + 47, ox + 81 + dx, oy + 80), fill=(82, 166, 128), outline=(32, 82, 62))
+        draw.ellipse((ox + 43 + dx, oy + 65, ox + 61 + dx, oy + 83), fill=(244, 132, 160), outline=(160, 74, 100))
+        draw.ellipse((ox + 46 + dx, oy + 70 + index, ox + 52 + dx, oy + 76 + index), fill=(70 + index * 20, 120, 190), outline=(30, 60, 90))
+    image.save(sheet)
+
+    commands = [
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "import_candidate_sheet.py"),
+            "--input",
+            str(sheet),
+            "--run-dir",
+            str(run_dir),
+            "--frames",
+            "4",
+            "--canvas",
+            "128x128",
+            "--layout",
+            "grid",
+            "--rows",
+            "2",
+            "--columns",
+            "2",
+            "--allow-uneven-grid",
+            "--placement-mode",
+            "fit-slot",
+            "--component-mode",
+            "largest",
+            "--fit-slot-margin",
+            "24",
+            "--min-source-cell-margin",
+            "4",
+            "--max-adjacent-height-ratio",
+            "0.40",
+            "--background",
+            "white",
+            "--action",
+            "fixture_bow",
+            "--character-name",
+            "fixture_character",
+        ],
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "freeze_keyposes.py"),
+            "--run-dir",
+            str(run_dir),
+            "--frame-dir",
+            str(run_dir / "sequence_frames"),
+            "--canvas",
+            "128x128",
+            "--duration-ms",
+            "90",
+            "--action",
+            "fixture_bow",
+            "--stage",
+            "candidate",
+            "--phases",
+            "a,b,c,d",
+        ],
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "export_locked_gif.py"),
+            "--run-dir",
+            str(run_dir),
+            "--duration-ms",
+            "90",
+            "--stage",
+            "candidate",
+        ],
+    ]
+    stdout: list[str] = []
+    stderr: list[str] = []
+    returncode = 0
+    for command in commands:
+        result = subprocess.run(command, cwd=ROOT, text=True, capture_output=True)
+        stdout.extend(result.stdout.strip().splitlines() if result.stdout.strip() else [])
+        stderr.extend(result.stderr.strip().splitlines() if result.stderr.strip() else [])
+        if result.returncode != 0:
+            returncode = result.returncode
+            break
+
+    checks_passed = False
+    if returncode == 0:
+        frame = Image.open(run_dir / "sequence_frames" / "000.png").convert("RGBA")
+        robe_alpha = frame.getpixel((64, 82))[3]
+        bbox = frame.getbbox()
+        if bbox is None:
+            final_min_margin = 0
+        else:
+            final_min_margin = min(bbox[0], bbox[1], frame.width - bbox[2], frame.height - bbox[3])
+        report = json.loads((run_dir / "locked_gif_export_report.json").read_text(encoding="utf-8"))
+        offset_report = json.loads((run_dir / "offset_normalization_report.json").read_text(encoding="utf-8"))
+        source_margin_report = json.loads((run_dir / "source_cell_margin_report.json").read_text(encoding="utf-8"))
+        source_proportion_report = json.loads((run_dir / "source_proportion_report.json").read_text(encoding="utf-8"))
+        gif_mode = report.get("gif_export_mode", {})
+        accepted_sat = median_saturation(run_dir / "accepted_keyposes" / "000.png", ignore_near_white=True)
+        gif_sat = median_saturation(run_dir / "animation.gif", ignore_near_white=True)
+        checks_passed = (
+            robe_alpha > 0
+            and final_min_margin >= 24
+            and offset_report.get("placement_report", {}).get("mode") == "fit-slot"
+            and source_margin_report.get("status") == "pass"
+            and source_proportion_report.get("status") == "pass"
+            and (run_dir / "animation-transparent.gif").exists()
+            and gif_mode.get("animation_gif") == "matte_rgb_white"
+            and gif_sat >= accepted_sat * 0.55
+        )
+        stdout.extend([
+            f"robe_alpha={robe_alpha}",
+            f"final_min_margin={final_min_margin}",
+            f"source_margin_status={source_margin_report.get('status')}",
+            f"source_proportion_status={source_proportion_report.get('status')}",
+            f"accepted_median_saturation={accepted_sat:.4f}",
+            f"gif_median_saturation={gif_sat:.4f}",
+            f"gif_export_mode={gif_mode.get('animation_gif')}",
+        ])
+
+    return CommandResult(
+        name="provider_packaging_quality_smoke",
+        command=["provider_packaging_quality_smoke"],
+        returncode=returncode,
+        passed=returncode == 0 and checks_passed,
+        stdout_tail=stdout[-12:],
+        stderr_tail=stderr[-8:],
+    )
+
+
+def run_provider_source_margin_gate_smoke(temp_root: Path) -> CommandResult:
+    run_dir = temp_root / "provider_source_margin_gate"
+    sheet = temp_root / "touching_provider_sheet.png"
+    image = Image.new("RGB", (128, 128), (255, 255, 255))
+    draw = ImageDraw.Draw(image)
+    draw.rectangle((24, 0, 104, 112), fill=(82, 166, 128), outline=(32, 82, 62), width=2)
+    image.save(sheet)
+    return run_command(
+        "provider_source_margin_gate_smoke",
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "import_candidate_sheet.py"),
+            "--input",
+            str(sheet),
+            "--run-dir",
+            str(run_dir),
+            "--frames",
+            "1",
+            "--canvas",
+            "128x128",
+            "--layout",
+            "grid",
+            "--rows",
+            "1",
+            "--columns",
+            "1",
+            "--placement-mode",
+            "fit-slot",
+            "--component-mode",
+            "largest",
+            "--background",
+            "white",
+            "--min-source-cell-margin",
+            "8",
+            "--source-margin-policy",
+            "fail",
+            "--action",
+            "fixture_bow",
+            "--character-name",
+            "fixture_character",
+        ],
+        expected_returncode=1,
+    )
+
+
+def run_fit_ground_stability_smoke(temp_root: Path) -> CommandResult:
+    run_dir = temp_root / "fit_ground_stability"
+    sheet = temp_root / "fit_ground_sheet.png"
+    image = Image.new("RGB", (240, 120), (255, 255, 255))
+    draw = ImageDraw.Draw(image)
+    for index, height in enumerate((96, 72)):
+        ox = index * 120
+        draw.rectangle((ox + 42, 12 + (96 - height), ox + 78, 108), fill=(82, 166, 128), outline=(32, 82, 62), width=2)
+        draw.ellipse((ox + 36, 12 + (96 - height), ox + 84, 60 + (96 - height)), fill=(118, 82, 54), outline=(35, 28, 24), width=2)
+    image.save(sheet)
+    command = [
+        sys.executable,
+        str(ROOT / "scripts" / "import_candidate_sheet.py"),
+        "--input",
+        str(sheet),
+        "--run-dir",
+        str(run_dir),
+        "--frames",
+        "2",
+        "--canvas",
+        "128x128",
+        "--layout",
+        "grid",
+        "--rows",
+        "1",
+        "--columns",
+        "2",
+        "--placement-mode",
+        "fit-ground",
+        "--component-mode",
+        "largest",
+        "--background",
+        "white",
+        "--fit-slot-margin",
+        "16",
+        "--min-source-cell-margin",
+        "8",
+        "--action",
+        "fixture_bow",
+        "--character-name",
+        "fixture_character",
+    ]
+    result = subprocess.run(command, cwd=ROOT, text=True, capture_output=True)
+    stdout = result.stdout.strip().splitlines() if result.stdout.strip() else []
+    stderr = result.stderr.strip().splitlines() if result.stderr.strip() else []
+    checks_passed = False
+    if result.returncode == 0:
+        bottoms = []
+        min_margins = []
+        for path in sorted((run_dir / "sequence_frames").glob("*.png")):
+            frame = Image.open(path).convert("RGBA")
+            bbox = frame.getbbox()
+            if bbox is None:
+                continue
+            bottoms.append(bbox[3])
+            min_margins.append(min(bbox[0], bbox[1], frame.width - bbox[2], frame.height - bbox[3]))
+        report = json.loads((run_dir / "offset_normalization_report.json").read_text(encoding="utf-8"))
+        checks_passed = (
+            bottoms
+            and max(bottoms) - min(bottoms) <= 1
+            and min(min_margins) >= 16
+            and report.get("placement_report", {}).get("mode") == "fit-ground"
+        )
+        stdout.extend([
+            f"bottom_range={max(bottoms) - min(bottoms) if bottoms else 'missing'}",
+            f"min_margin={min(min_margins) if min_margins else 'missing'}",
+            f"placement_mode={report.get('placement_report', {}).get('mode')}",
+        ])
+    return CommandResult(
+        name="fit_ground_stability_smoke",
+        command=command,
+        returncode=result.returncode,
+        passed=result.returncode == 0 and checks_passed,
+        stdout_tail=stdout[-8:],
+        stderr_tail=stderr[-8:],
+    )
+
+
+def run_provider_proportion_gate_smoke(temp_root: Path) -> CommandResult:
+    run_dir = temp_root / "provider_proportion_gate"
+    sheet = temp_root / "proportion_drift_sheet.png"
+    image = Image.new("RGB", (240, 120), (255, 255, 255))
+    draw = ImageDraw.Draw(image)
+    draw.rectangle((42, 12, 78, 108), fill=(82, 166, 128), outline=(32, 82, 62), width=2)
+    draw.rectangle((162, 32, 198, 108), fill=(82, 166, 128), outline=(32, 82, 62), width=2)
+    image.save(sheet)
+    return run_command(
+        "provider_proportion_gate_smoke",
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "import_candidate_sheet.py"),
+            "--input",
+            str(sheet),
+            "--run-dir",
+            str(run_dir),
+            "--frames",
+            "2",
+            "--canvas",
+            "128x128",
+            "--layout",
+            "grid",
+            "--rows",
+            "1",
+            "--columns",
+            "2",
+            "--placement-mode",
+            "fit-ground",
+            "--component-mode",
+            "largest",
+            "--background",
+            "white",
+            "--max-adjacent-height-ratio",
+            "0.05",
+            "--proportion-policy",
+            "fail",
+            "--action",
+            "fixture_bow",
+            "--character-name",
+            "fixture_character",
+        ],
+        expected_returncode=1,
+    )
+
+
+def run_character_action_brief_smoke(temp_root: Path) -> CommandResult:
+    run_dir = temp_root / "character_action_brief"
+    reference = temp_root / "hanfu_reference.png"
+    image = Image.new("RGBA", (160, 180), (255, 255, 255, 255))
+    draw = ImageDraw.Draw(image)
+    draw.ellipse((50, 14, 110, 74), fill=(118, 82, 54, 255), outline=(35, 28, 24, 255), width=2)
+    draw.rectangle((58, 74, 102, 145), fill=(82, 166, 128, 255), outline=(32, 82, 62, 255), width=2)
+    draw.ellipse((42, 22, 64, 44), fill=(244, 132, 160, 255), outline=(160, 74, 100, 255))
+    image.save(reference)
+    command = [
+        sys.executable,
+        str(ROOT / "scripts" / "create_provider_brief.py"),
+        "--reference",
+        str(reference),
+        "--run-dir",
+        str(run_dir),
+        "--character-name",
+        "fixture_hanfu",
+        "--action",
+        "gentle_bow_flower_sway",
+        "--frames",
+        "16",
+        "--canvas",
+        "512x512",
+    ]
+    result = subprocess.run(command, cwd=ROOT, text=True, capture_output=True)
+    stdout = result.stdout.strip().splitlines() if result.stdout.strip() else []
+    stderr = result.stderr.strip().splitlines() if result.stderr.strip() else []
+    checks_passed = False
+    if result.returncode == 0:
+        brief = run_dir / "provider_briefs" / "gentle_bow_flower_sway.json"
+        measurement = run_dir / "provider_briefs" / "identity_measurement.json"
+        prompt = (run_dir / "provider_briefs" / "gentle_bow_flower_sway.md").read_text(encoding="utf-8")
+        payload = json.loads(brief.read_text(encoding="utf-8"))
+        checks_passed = (
+            payload.get("schema_version") == "sofunny-provider-brief.v2"
+            and payload.get("action") == "gentle_bow_flower_sway"
+            and measurement.exists()
+            and "visible_bbox" in prompt
+            and "hands" in prompt
+            and "at least 12%" in prompt
+        )
+        stdout.extend([
+            f"brief_schema={payload.get('schema_version')}",
+            f"measurement_exists={measurement.exists()}",
+        ])
+    return CommandResult(
+        name="character_action_brief_smoke",
+        command=command,
+        returncode=result.returncode,
+        passed=result.returncode == 0 and checks_passed,
+        stdout_tail=stdout[-8:],
+        stderr_tail=stderr[-8:],
+    )
+
+
+def run_oneshot_candidate_required_smoke(temp_root: Path) -> CommandResult:
+    run_dir = temp_root / "oneshot_candidate_required"
+    reference = temp_root / "oneshot_reference.png"
+    image = Image.new("RGBA", (192, 220), (255, 255, 255, 255))
+    draw = ImageDraw.Draw(image)
+    draw.ellipse((62, 20, 130, 88), fill=(118, 82, 54, 255), outline=(35, 28, 24, 255), width=3)
+    draw.rectangle((70, 88, 122, 178), fill=(82, 166, 128, 255), outline=(32, 82, 62, 255), width=3)
+    draw.ellipse((52, 26, 76, 50), fill=(244, 132, 160, 255), outline=(160, 74, 100, 255))
+    image.save(reference)
+    command = [
+        sys.executable,
+        str(ROOT / "scripts" / "run_sofunny_oneshot.py"),
+        "--reference",
+        str(reference),
+        "--run-dir",
+        str(run_dir),
+        "--character-name",
+        "fixture_hanfu",
+        "--action",
+        "gentle_bow_flower_sway",
+        "--frames",
+        "16",
+        "--canvas",
+        "256x256",
+        "--margin",
+        "32",
+    ]
+    result = subprocess.run(command, cwd=ROOT, text=True, capture_output=True)
+    stdout = result.stdout.strip().splitlines() if result.stdout.strip() else []
+    stderr = result.stderr.strip().splitlines() if result.stderr.strip() else []
+    checks_passed = False
+    if result.returncode == 1 and (run_dir / "oneshot_report.json").exists():
+        report = json.loads((run_dir / "oneshot_report.json").read_text(encoding="utf-8"))
+        gif_exists = (run_dir / "animation.gif").exists()
+        freeze_exists = (run_dir / "keypose_freeze_manifest.json").exists()
+        checks_passed = (
+            report.get("status") == "fail"
+            and report.get("route") == "candidate_sheet_required"
+            and report.get("admission_eligible") is False
+            and not gif_exists
+            and not freeze_exists
+        )
+        stdout.extend([
+            f"route={report.get('route')}",
+            f"gif_exists={gif_exists}",
+            f"freeze_exists={freeze_exists}",
+        ])
+    return CommandResult(
+        name="oneshot_candidate_required_smoke",
+        command=command,
+        returncode=result.returncode,
+        passed=result.returncode == 1 and checks_passed,
+        stdout_tail=stdout[-8:],
+        stderr_tail=stderr[-8:],
+    )
+
+
+def run_oneshot_diagnostic_local_bow_smoke(temp_root: Path) -> CommandResult:
+    run_dir = temp_root / "oneshot_diagnostic_local_bow"
+    reference = temp_root / "oneshot_diagnostic_reference.png"
+    image = Image.new("RGBA", (192, 220), (255, 255, 255, 255))
+    draw = ImageDraw.Draw(image)
+    draw.ellipse((62, 20, 130, 88), fill=(118, 82, 54, 255), outline=(35, 28, 24, 255), width=3)
+    draw.rectangle((70, 88, 122, 178), fill=(82, 166, 128, 255), outline=(32, 82, 62, 255), width=3)
+    draw.ellipse((52, 26, 76, 50), fill=(244, 132, 160, 255), outline=(160, 74, 100, 255))
+    image.save(reference)
+    command = [
+        sys.executable,
+        str(ROOT / "scripts" / "run_sofunny_oneshot.py"),
+        "--reference",
+        str(reference),
+        "--run-dir",
+        str(run_dir),
+        "--character-name",
+        "fixture_hanfu",
+        "--action",
+        "gentle_bow_flower_sway",
+        "--frames",
+        "16",
+        "--canvas",
+        "256x256",
+        "--margin",
+        "32",
+        "--allow-diagnostic-fallback",
+    ]
+    result = subprocess.run(command, cwd=ROOT, text=True, capture_output=True)
+    stdout = result.stdout.strip().splitlines() if result.stdout.strip() else []
+    stderr = result.stderr.strip().splitlines() if result.stderr.strip() else []
+    checks_passed = False
+    if result.returncode in {0, 1} and (run_dir / "oneshot_report.json").exists():
+        report = json.loads((run_dir / "oneshot_report.json").read_text(encoding="utf-8"))
+        gif_exists = (run_dir / "animation.gif").exists()
+        freeze_exists = (run_dir / "keypose_freeze_manifest.json").exists()
+        checks_passed = (
+            report.get("route") == "diagnostic_local_fallback"
+            and report.get("admission_eligible") is False
+            and gif_exists
+            and freeze_exists
+        )
+        stdout.extend([
+            f"status={report.get('status')}",
+            f"route={report.get('route')}",
+            f"admission_eligible={report.get('admission_eligible')}",
+        ])
+    return CommandResult(
+        name="oneshot_diagnostic_local_bow_smoke",
+        command=command,
+        returncode=result.returncode,
+        passed=checks_passed,
+        stdout_tail=stdout[-8:],
+        stderr_tail=stderr[-8:],
+    )
+
+
 def phase_values(index: int, total: int, scenario: str) -> dict[str, Any]:
     if scenario == "near_duplicate_end_frames_fail" and index >= total - 3:
         index = total - 1
@@ -1213,6 +1715,13 @@ def main() -> int:
         run_component_generation_gate_smoke(temp_root),
         run_freeze_enforcement_smoke(temp_root),
         run_coin_action_contract_smoke(temp_root),
+        run_provider_packaging_quality_smoke(temp_root),
+        run_provider_source_margin_gate_smoke(temp_root),
+        run_fit_ground_stability_smoke(temp_root),
+        run_provider_proportion_gate_smoke(temp_root),
+        run_character_action_brief_smoke(temp_root),
+        run_oneshot_candidate_required_smoke(temp_root),
+        run_oneshot_diagnostic_local_bow_smoke(temp_root),
     ]
 
     cases = [run_case(path, temp_root) for path in sorted(CASES_DIR.glob("*/case.json"))]

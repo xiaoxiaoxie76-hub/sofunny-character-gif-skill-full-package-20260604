@@ -67,6 +67,22 @@ def save_transparent_gif(frames: list[Image.Image], path: str | Path, duration: 
     paletted[0].save(path, save_all=True, append_images=paletted[1:], duration=duration, loop=0, disposal=2, transparency=0, optimize=False, dither=Image.Dither.NONE)
 
 
+def save_matte_gif(frames: list[Image.Image], path: str | Path, duration: int, matte: tuple[int, int, int] = (255, 255, 255)) -> None:
+    rgb_frames = []
+    for frame in frames:
+        bg = Image.new("RGBA", frame.size, (*matte, 255))
+        bg.alpha_composite(frame.convert("RGBA"))
+        rgb_frames.append(bg.convert("RGB"))
+    palette_source = Image.new("RGB", (sum(frame.width for frame in rgb_frames), max(frame.height for frame in rgb_frames)), matte)
+    x = 0
+    for frame in rgb_frames:
+        palette_source.paste(frame, (x, 0))
+        x += frame.width
+    palette = palette_source.quantize(colors=256, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
+    out_frames = [frame.quantize(palette=palette, dither=Image.Dither.NONE) for frame in rgb_frames]
+    out_frames[0].save(path, save_all=True, append_images=out_frames[1:], duration=duration, loop=0, disposal=2, optimize=False)
+
+
 def save_checker_gif(frames: list[Image.Image], path: str | Path, duration: int) -> None:
     out_frames = []
     for frame in frames:
@@ -101,4 +117,3 @@ def save_transparent_sheet(frames: list[Image.Image], path: str | Path) -> None:
 def save_webp(frames: list[Image.Image], path: str | Path, duration: int) -> None:
     rgba = [frame.convert("RGBA") for frame in frames]
     rgba[0].save(path, save_all=True, append_images=rgba[1:], duration=duration, loop=0, lossless=True, exact=True, method=6)
-

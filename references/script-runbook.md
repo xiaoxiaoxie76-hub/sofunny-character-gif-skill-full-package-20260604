@@ -364,6 +364,33 @@ python3 /Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/import_ca
 
 This writes `component_cleanup_report.json` and `offset_normalization_report.json`.
 
+For a Codex image-gen or other candidate sheet that is visually good but uses white background, uneven grid dimensions, or weak gutters, import through the repair path instead of treating it as production provider output:
+
+```bash
+python3 /Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/import_candidate_sheet.py \
+  --input /path/to/candidate-sheet.png \
+  --run-dir /path/to/run \
+  --frames 16 \
+  --canvas 512x512 \
+  --layout grid \
+  --rows 4 \
+  --columns 4 \
+  --allow-uneven-grid \
+  --placement-mode fit-ground \
+  --fit-slot-margin 48 \
+  --component-mode largest \
+  --background white \
+  --min-source-cell-margin 12 \
+  --source-margin-policy warn \
+  --max-adjacent-height-ratio 0.035 \
+  --proportion-policy warn \
+  --action gentle_bow_flower_sway \
+  --character-name chibi_hanfu_girl \
+  --route openai_image_edit_candidate
+```
+
+Use `--source-margin-policy fail` and `--proportion-policy fail` for production-adjacent gates. `fit-ground` keeps a one-sequence scale and a stable bottom baseline for grounded actions such as bowing, walking, and nodding. Use `fit-slot` only when bbox center stability is intentional, such as floating objects or centered stickers. Neither mode can reconstruct details already cropped by the provider cell.
+
 ## Preview And Audit
 
 Export previews:
@@ -568,9 +595,26 @@ python3 /Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/export_lo
 
 This writes `locked_gif_export_report.json` and verifies accepted keypose hashes before and after export. Export success is still not production approval.
 
-## Local Fallbacks
+## One-Shot Provider Path
 
-Generate a local fallback candidate sheet:
+`run_sofunny_oneshot.py` is fail-closed by default. It creates the provider brief, imports a supplied provider/model sheet, freezes accepted keyposes, exports the matte GIF, and runs action semantics audit. If `--candidate-sheet` is missing or cannot pass import gates, the script writes `oneshot_report.json` with `status=fail` and does not generate a user-facing fallback GIF.
+
+```bash
+python3 /Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/run_sofunny_oneshot.py \
+  --reference /path/to/canonical_character.png \
+  --run-dir /path/to/run \
+  --character-name hanfu_girl \
+  --action gentle_bow_flower_sway \
+  --candidate-sheet /path/to/provider_sheet.png \
+  --frames 16 \
+  --canvas 512x512
+```
+
+Use `--allow-diagnostic-fallback` only for pipeline smoke. Diagnostic fallback output is marked `admission_eligible=false` and must not be returned as the final user result.
+
+## Local Diagnostics
+
+Generate a local diagnostic candidate sheet:
 
 ```bash
 python3 /Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/generate_candidate_sheet.py \

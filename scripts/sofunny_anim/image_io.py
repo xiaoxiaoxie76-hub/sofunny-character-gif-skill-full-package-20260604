@@ -26,12 +26,11 @@ def is_checker_bg_pixel(pixel: tuple[int, int, int, int]) -> bool:
         return True
     hi = max(r, g, b)
     lo = min(r, g, b)
-    if hi >= 225 and (hi - lo) <= 30:
+    if hi >= 248 and (hi - lo) <= 8:
         return True
-    # Some providers draw grey grid/cell borders around checker backgrounds.
-    # Treat only edge-connected neutral greys as removable background so internal
-    # white shirt, muzzle, teeth, and highlights are preserved by character outlines.
-    return hi >= 150 and (hi - lo) <= 35
+    # Checker cleanup is intentionally conservative. Broader neutral-grey
+    # flood-fill removes white costumes and highlights when line art has gaps.
+    return 180 <= hi <= 242 and (hi - lo) <= 18
 
 
 def remove_edge_connected_checker(image: Image.Image) -> Image.Image:
@@ -77,6 +76,14 @@ def remove_background(image: Image.Image, mode: str) -> Image.Image:
             for x in range(rgba.width):
                 r, g, b, a = pix[x, y]
                 if a >= 250 and r <= 8 and g >= 247 and b <= 8:
+                    pix[x, y] = (r, g, b, 0)
+        return rgba
+    if mode == "white":
+        pix = rgba.load()
+        for y in range(rgba.height):
+            for x in range(rgba.width):
+                r, g, b, a = pix[x, y]
+                if a >= 250 and r >= 250 and g >= 250 and b >= 250:
                     pix[x, y] = (r, g, b, 0)
         return rgba
     if mode == "checker":
@@ -151,4 +158,60 @@ def remove_small_alpha_components(image: Image.Image, min_largest_ratio: float =
         "min_component_area": min_area,
         "removed_components": removed_components,
         "removed_alpha_area": removed_alpha_area,
+    }
+
+
+def keep_largest_alpha_component(image: Image.Image, alpha_threshold: int = 8) -> tuple[Image.Image, dict]:
+    rgba = image.convert("RGBA")
+    alpha = rgba.getchannel("A")
+    pix = alpha.load()
+    width, height = alpha.size
+    visited: set[tuple[int, int]] = set()
+    components: list[list[tuple[int, int]]] = []
+
+    for y in range(height):
+        for x in range(width):
+            if pix[x, y] <= alpha_threshold or (x, y) in visited:
+                continue
+            visited.add((x, y))
+            queue: deque[tuple[int, int]] = deque([(x, y)])
+            component: list[tuple[int, int]] = []
+            while queue:
+                cx, cy = queue.popleft()
+                component.append((cx, cy))
+                for nx, ny in ((cx - 1, cy), (cx + 1, cy), (cx, cy - 1), (cx, cy + 1)):
+                    if 0 <= nx < width and 0 <= ny < height and pix[nx, ny] > alpha_threshold and (nx, ny) not in visited:
+                        visited.add((nx, ny))
+                        queue.append((nx, ny))
+            components.append(component)
+
+    if not components:
+        return rgba, {
+            "status": "fail",
+            "largest_component_area": 0,
+            "removed_components": 0,
+            "removed_alpha_area": 0,
+        }
+
+    largest_component = max(components, key=len)
+    keep = set(largest_component)
+    out = Image.new("RGBA", rgba.size, (0, 0, 0, 0))
+    src = rgba.load()
+    dst = out.load()
+    removed_components = 0
+    removed_alpha_area = 0
+    for component in components:
+        if component is largest_component:
+            continue
+        removed_components += 1
+        removed_alpha_area += len(component)
+    for x, y in keep:
+        dst[x, y] = src[x, y]
+
+    return out, {
+        "status": "pass",
+        "largest_component_area": len(largest_component),
+        "removed_components": removed_components,
+        "removed_alpha_area": removed_alpha_area,
+        "component_areas": sorted((len(component) for component in components), reverse=True)[:10],
     }
