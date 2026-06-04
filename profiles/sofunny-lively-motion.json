@@ -1,0 +1,41 @@
+{
+  "schema_version": "sofunny-lively-motion-profile.v1",
+  "profile_name": "sofunny_lively_motion",
+  "profile_type": "production_motion_profile",
+  "unknown_keys_policy": "fail",
+  "default_secondary_motion": {
+    "tail": {
+      "lag_frames": 1,
+      "rotation_deg": 6,
+      "overshoot_deg": 2
+    },
+    "head": {
+      "bob_px": 3,
+      "rotation_deg": 2,
+      "phase_delay": 0.15
+    },
+    "arms": {
+      "counter_swing_deg": 8,
+      "phase_offset": 0.5
+    },
+    "torso": {
+      "squash_y": 0.985,
+      "stretch_y": 1.015
+    },
+    "face": {
+      "blink_allowed": true,
+      "blink_max_frames": 2
+    }
+  },
+  "constraints": {
+    "full_frame_redraw": false,
+    "must_use_movable_parts_contract": true,
+    "forbidden_identity_changes": [
+      "face_shape",
+      "glasses_shape",
+      "outfit_design",
+      "palette",
+      "line_weight"
+    ]
+  }
+}

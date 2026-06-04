@@ -1,0 +1,16 @@
+{
+  "schema_version": "sofunny-regression-case.v1",
+  "name": "missing_visual_review_fail",
+  "description": "Missing visual-review.json must block production approval.",
+  "fixture": {
+    "identity_status": "pass",
+    "smoke": false,
+    "omit_visual_review": true
+  },
+  "expect": {
+    "finalize_returncode": 1,
+    "production_approved": false,
+    "validate_admission_returncode": "skip",
+    "validate_manifest_returncode": "skip"
+  }
+}

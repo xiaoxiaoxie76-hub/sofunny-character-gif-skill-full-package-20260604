@@ -1,0 +1,1034 @@
+{
+  "schema_version": "sofunny-regression-report.v1",
+  "generated_at": "2026-06-04T15:38:52.839899+00:00",
+  "status": "pass",
+  "skill_root": "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604",
+  "cases_dir": "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/regression_cases",
+  "temp_root": null,
+  "checks": [
+    {
+      "name": "quick_validate_skill",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/quick_validate_skill.py"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "PASS: SoFunny skill structure is valid",
+        "SKILL.md lines: 171"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "validate_profile_sofunny",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/validate_profile.py",
+        "--profile",
+        "sofunny"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "{",
+        "  \"status\": \"pass\",",
+        "  \"profile_name\": \"sofunny\",",
+        "  \"profile_path\": \"/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/profiles/sofunny.json\",",
+        "  \"failures\": []",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "validate_profile_default",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/validate_profile.py",
+        "--profile",
+        "default-character-gif"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "{",
+        "  \"status\": \"pass\",",
+        "  \"profile_name\": \"default-character-gif\",",
+        "  \"profile_path\": \"/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/profiles/default-character-gif.json\",",
+        "  \"failures\": []",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "audit_admission_enforcement",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/audit_admission_enforcement.py",
+        "--output-dir",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "  \"status\": \"pass\",",
+        "  \"findings\": 0,",
+        "  \"p0\": 0,",
+        "  \"p1\": 0,",
+        "  \"p2\": 0,",
+        "  \"json\": \"/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/admission_enforcement_audit.json\",",
+        "  \"md\": \"/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/admission_enforcement_audit.md\"",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "route_select_small_jog",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/select_source_animation_route.py",
+        "--action",
+        "small_jog_front",
+        "--run-type",
+        "production"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "  \"candidate_only\": false,",
+        "  \"de_identification_required\": false,",
+        "  \"reimport_required\": false,",
+        "  \"freeze_required\": true,",
+        "  \"admission_required\": true,",
+        "  \"blockers\": [],",
+        "  \"warnings\": []",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "route_select_blocks_production_full_frame_redraw",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/select_source_animation_route.py",
+        "--action",
+        "small_jog_front",
+        "--run-type",
+        "production",
+        "--proposed-route",
+        "full_frame_redraw"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [
+        "  \"reimport_required\": false,",
+        "  \"freeze_required\": true,",
+        "  \"admission_required\": true,",
+        "  \"blockers\": [",
+        "    \"production full-frame redraw is blocked; pivot to source animation route\"",
+        "  ],",
+        "  \"warnings\": []",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "route_select_sherry_tail_wave_greeting",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/select_source_animation_route.py",
+        "--action",
+        "sherry_tail_wave_greeting",
+        "--run-type",
+        "production_candidate"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "  \"candidate_only\": true,",
+        "  \"de_identification_required\": false,",
+        "  \"reimport_required\": true,",
+        "  \"freeze_required\": true,",
+        "  \"admission_required\": true,",
+        "  \"blockers\": [],",
+        "  \"warnings\": []",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "route_select_catch_falling_petal",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/select_source_animation_route.py",
+        "--action",
+        "catch_falling_petal",
+        "--run-type",
+        "production_candidate"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "  \"candidate_only\": true,",
+        "  \"de_identification_required\": false,",
+        "  \"reimport_required\": true,",
+        "  \"freeze_required\": true,",
+        "  \"admission_required\": true,",
+        "  \"blockers\": [],",
+        "  \"warnings\": []",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "route_select_catch_falling_petal_blocks_candidate_pseudo_rig",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/select_source_animation_route.py",
+        "--action",
+        "catch_falling_petal",
+        "--run-type",
+        "production_candidate",
+        "--proposed-route",
+        "component_pseudo_rig_action_component_plan"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [
+        "  \"reimport_required\": true,",
+        "  \"freeze_required\": true,",
+        "  \"admission_required\": true,",
+        "  \"blockers\": [",
+        "    \"proposed route component_pseudo_rig_action_component_plan does not match allowed routes ['clean_layer_component_route', 'local_redraw_keypose_candidate', 'provider_keypose_candidate'] for catch_falling_petal\"",
+        "  ],",
+        "  \"warnings\": []",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "route_select_catch_falling_petal_blocks_pseudo_rig",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/select_source_animation_route.py",
+        "--action",
+        "catch_falling_petal",
+        "--run-type",
+        "production",
+        "--proposed-route",
+        "source_animation_component_plan_with_local_hand_redraw"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [
+        "  \"admission_required\": true,",
+        "  \"blockers\": [",
+        "    \"proposed route source_animation_component_plan_with_local_hand_redraw does not match allowed routes ['clean_layer_component_route', 'local_redraw_keypose_candidate', 'provider_keypose_candidate'] for catch_falling_petal\"",
+        "  ],",
+        "  \"warnings\": [",
+        "    \"selected route is candidate-only until de-identified and re-imported through SoFunny gates\"",
+        "  ]",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "route_select_coin_flip_prop_action",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/select_source_animation_route.py",
+        "--action",
+        "coin_flip_deal_nod_v3",
+        "--run-type",
+        "production"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "  \"candidate_only\": false,",
+        "  \"de_identification_required\": false,",
+        "  \"reimport_required\": false,",
+        "  \"freeze_required\": true,",
+        "  \"admission_required\": true,",
+        "  \"blockers\": [],",
+        "  \"warnings\": []",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "route_select_coin_flip_blocks_local_transform",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/select_source_animation_route.py",
+        "--action",
+        "coin_flip_deal_nod_v3",
+        "--run-type",
+        "production",
+        "--proposed-route",
+        "local_part_transform_or_masked_edit"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [
+        "  \"reimport_required\": false,",
+        "  \"freeze_required\": true,",
+        "  \"admission_required\": true,",
+        "  \"blockers\": [",
+        "    \"proposed route local_part_transform_or_masked_edit does not match allowed routes ['prop_action_component_route'] for coin_flip_deal_nod_v3\"",
+        "  ],",
+        "  \"warnings\": []",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "adapter_select_tooncrafter_requires_approved_keyposes",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/select_route_adapter.py",
+        "--route",
+        "interpolation_route",
+        "--adapter",
+        "tooncrafter",
+        "--reimport-through-gates"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [
+        "  \"admission_required\": true,",
+        "  \"blockers\": [",
+        "    \"adapter tooncrafter requires approved endpoint keyposes\"",
+        "  ],",
+        "  \"warnings\": [",
+        "    \"adapter output is candidate-only and cannot set production_approved\"",
+        "  ]",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "adapter_select_tooncrafter_with_approved_keyposes",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/select_route_adapter.py",
+        "--route",
+        "interpolation_route",
+        "--adapter",
+        "tooncrafter",
+        "--approved-keyposes",
+        "--reimport-through-gates"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "  \"reimport_through_gates\": true,",
+        "  \"freeze_required\": true,",
+        "  \"admission_required\": true,",
+        "  \"blockers\": [],",
+        "  \"warnings\": [",
+        "    \"adapter output is candidate-only and cannot set production_approved\"",
+        "  ]",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "adapter_select_animate_requires_deid_reimport",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/select_route_adapter.py",
+        "--route",
+        "external_animation_provider_candidate",
+        "--adapter",
+        "animate_x_wan"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [
+        "  \"blockers\": [",
+        "    \"adapter animate_x_wan requires de-identified input\",",
+        "    \"adapter animate_x_wan output must be re-imported through SoFunny gates\"",
+        "  ],",
+        "  \"warnings\": [",
+        "    \"adapter output is candidate-only and cannot set production_approved\"",
+        "  ]",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "adapter_select_ipadapter_external_upload_blocked",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/select_route_adapter.py",
+        "--route",
+        "local_part_transform_or_masked_edit",
+        "--adapter",
+        "ipadapter_comfyui",
+        "--reimport-through-gates",
+        "--hosted-external"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [
+        "  \"admission_required\": true,",
+        "  \"blockers\": [",
+        "    \"hosted external adapter upload is blocked without explicit permission\"",
+        "  ],",
+        "  \"warnings\": [",
+        "    \"adapter output is candidate-only and cannot set production_approved\"",
+        "  ]",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "adapter_select_spine_blocks_first_round_mvp",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/select_route_adapter.py",
+        "--route",
+        "lora_ipadapter_or_component_rig_candidate",
+        "--adapter",
+        "spine_live2d_dragonbones",
+        "--reimport-through-gates"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [
+        "  \"admission_required\": true,",
+        "  \"blockers\": [",
+        "    \"adapter spine_live2d_dragonbones is long-term rig scope, not first-round MVP\"",
+        "  ],",
+        "  \"warnings\": [",
+        "    \"adapter output is candidate-only and cannot set production_approved\"",
+        "  ]",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "retry_tax_single_attempt_allows_continue",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/retry_tax_report.py",
+        "--attempt",
+        "full_frame_redraw:identity_drift"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "    \"full_frame_redraw\": 1",
+        "  },",
+        "  \"failure_class_counts\": {",
+        "    \"identity_drift\": 1",
+        "  },",
+        "  \"blockers\": [],",
+        "  \"warnings\": []",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "retry_tax_repeated_identity_drift_requires_pivot",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/retry_tax_report.py",
+        "--attempt",
+        "full_frame_redraw:identity_drift",
+        "--attempt",
+        "full_frame_redraw:identity_drift"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [
+        "    \"identity_drift\": 2",
+        "  },",
+        "  \"blockers\": [",
+        "    \"same route reached budget: full_frame_redraw count=2\",",
+        "    \"same failure class reached budget: identity_drift count=2\"",
+        "  ],",
+        "  \"warnings\": []",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "retry_tax_same_route_two_failures_requires_pivot",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/retry_tax_report.py",
+        "--attempt",
+        "full_frame_redraw:identity_drift",
+        "--attempt",
+        "full_frame_redraw:tail_artifact"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [
+        "    \"identity_drift\": 1,",
+        "    \"tail_artifact\": 1",
+        "  },",
+        "  \"blockers\": [",
+        "    \"same route reached budget: full_frame_redraw count=2\"",
+        "  ],",
+        "  \"warnings\": []",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "retry_tax_same_failure_two_routes_requires_pivot",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/retry_tax_report.py",
+        "--attempt",
+        "full_frame_redraw:identity_drift",
+        "--attempt",
+        "provider_candidate:identity_drift"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [
+        "  \"failure_class_counts\": {",
+        "    \"identity_drift\": 2",
+        "  },",
+        "  \"blockers\": [",
+        "    \"same failure class reached budget: identity_drift count=2\"",
+        "  ],",
+        "  \"warnings\": []",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "animatex_blocks_small_action",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/create_animatex_packet.py",
+        "--run-dir",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/animatex_small_action",
+        "--canonical-reference",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/missing.png",
+        "--motion-video",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/missing.mp4",
+        "--action",
+        "small_jog_front",
+        "--deidentified-motion"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [
+        "ANIMATEX_UNSUPPORTED_ACTION: small_jog_front"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "tooncrafter_interpolation_smoke",
+      "command": [
+        "tooncrafter_interpolation_smoke"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "  \"status\": \"pass\",",
+        "  \"frames\": 4,",
+        "  \"report\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/tooncrafter_smoke/tooncrafter_import_report.json\"",
+        "}",
+        "{",
+        "  \"status\": \"pass\",",
+        "  \"report\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/tooncrafter_smoke/interpolated_segment_audit.json\"",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "ipadapter_part_repair_smoke",
+      "command": [
+        "ipadapter_part_repair_smoke"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "  \"packet\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/ipadapter_smoke/ipadapter_part_repair_packets/face\",",
+        "  \"part_name\": \"face\"",
+        "}",
+        "{",
+        "  \"status\": \"pass\",",
+        "  \"report\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/ipadapter_smoke/ipadapter_part_repair_import_report.json\",",
+        "  \"output_frame\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/ipadapter_smoke/ipadapter_repaired_frames/face/repaired_frame.png\"",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "animatex_video_provider_smoke",
+      "command": [
+        "animatex_video_provider_smoke"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "  \"status\": \"pass\",",
+        "  \"frames\": 8,",
+        "  \"report\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/animatex_smoke/animatex_import_report.json\"",
+        "}",
+        "{",
+        "  \"status\": \"pass\",",
+        "  \"report\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/animatex_smoke/video_provider_frame_audit.json\"",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "hard_split_component_plan_blocks_by_default",
+      "command": [
+        "hard_split_component_plan_blocks_by_default"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [
+        "FAIL: single-image auto-split pseudo-rig is diagnostic-only. Import clean component layers with anchors/backfill and pass component_integrity_report.json, or rerun with --allow-diagnostic-hard-split for a non-production experiment."
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "catch_falling_petal_hard_split_blocks_generation",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/generate_component_keyposes.py",
+        "--run-dir",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/catch_falling_petal_hard_split_block"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [],
+      "stderr_tail": [
+        "Traceback (most recent call last):",
+        "  File \"/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/generate_component_keyposes.py\", line 302, in <module>",
+        "    raise SystemExit(main())",
+        "  File \"/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/generate_component_keyposes.py\", line 203, in main",
+        "    reject_dirty_component_source(run_dir, part_map, action_plan)",
+        "  File \"/Users/xiexiaoxiao/Desktop/SoFunnyWork/sofunny-character-gif-skill-full-package-20260604/scripts/generate_component_keyposes.py\", line 137, in reject_dirty_component_source",
+        "    raise ValueError(\"; \".join(errors))",
+        "ValueError: manual_route_override.status manual_override_required cannot feed deterministic component keypose generation; route_selection_report.status must be pass before component keypose generation, got fail; catch_falling_petal component generation requires clean_layer_component_route; provider/local-redraw candidates must be imported as keyposes; catch_falling_petal cannot use pseudo-rig or source_animation_component_plan_with_local_hand_redraw; part_consistency_report.status must be pass before component keypose generation, got manual_required; component_integrity_report.json is required before component keypose generation; pseudo-rig or local-hand-redraw component routes are diagnostic-only and cannot feed deterministic component keypose generation; part_map.review_status draft_manual_review_required cannot feed deterministic component keypose generation; part_map.segmentation_provenance must declare clean component layers, got missing"
+      ]
+    },
+    {
+      "name": "component_generation_gate_smoke",
+      "command": [
+        "component_generation_gate_smoke"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "component_generation_clean_pass_returncode=0",
+        "component_generation_blocks_forged_manual_override_returncode=1",
+        "component_generation_blocks_forged_manual_override_matched_expected_text=True",
+        "component_generation_blocks_dirty_provenance_even_with_pass_report_returncode=1",
+        "component_generation_blocks_dirty_provenance_even_with_pass_report_matched_expected_text=True",
+        "component_generation_blocks_missing_component_integrity_returncode=1",
+        "component_generation_blocks_missing_component_integrity_matched_expected_text=True"
+      ],
+      "stderr_tail": [
+        "    raise ValueError(\"; \".join(errors))",
+        "ValueError: manual_route_override.json cannot feed deterministic component keypose generation; use route_selection_report with status pass; route_selection_report.status must be pass before component keypose generation, got fail; pseudo-rig or local-hand-redraw component routes are diagnostic-only and cannot feed deterministic component keypose generation",
+        "    raise ValueError(\"; \".join(errors))",
+        "ValueError: part_map.review_status diagnostic_only cannot feed deterministic component keypose generation; part_map.segmentation_provenance must declare clean component layers, got single_image_hard_split; single-image/auto/box/flat/unknown component provenance is diagnostic-only",
+        "    raise ValueError(\"; \".join(errors))",
+        "ValueError: component_integrity_report.json is required before component keypose generation"
+      ]
+    },
+    {
+      "name": "freeze_enforcement_smoke",
+      "command": [
+        "freeze_enforcement_smoke"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "}",
+        "{",
+        "  \"status\": \"fail\",",
+        "  \"report\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/freeze_blocks_tooncrafter_missing_audit/keypose_freeze_report.json\",",
+        "  \"failed_requirements\": {",
+        "    \"tooncrafter_audit\": \"missing\"",
+        "  }",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "coin_flip_deal_nod_action_contract_smoke",
+      "command": [
+        "coin_flip_deal_nod_action_contract_smoke"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "    \"lively_motion_report.status must be pass, got fail\",",
+        "    \"prop_action_contact_report.status must be pass, got fail\"",
+        "  ]",
+        "}",
+        "{",
+        "  \"status\": \"pass\",",
+        "  \"failures\": []",
+        "}"
+      ],
+      "stderr_tail": []
+    }
+  ],
+  "cases": [
+    {
+      "name": "identity_drift_fail",
+      "description": "Identity drift must block production approval.",
+      "passed": true,
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/identity_drift_fail",
+      "expected": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_returncode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "actual": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_mode": "skip",
+        "validate_admission_returncode": "skip",
+        "validate_manifest_mode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "evidence": [
+        "finalize_returncode=1",
+        "production_approved=False",
+        "finalize_stdout_last=- keypose_freeze_manifest.json.requirements.identity must be pass, got fail",
+        "validate_admission=skipped",
+        "validate_manifest=skipped"
+      ]
+    },
+    {
+      "name": "lively_motion_near_duplicate_end_frames_fail",
+      "description": "Near-duplicate dead frames at the end of a loop must fail lively motion audit.",
+      "passed": true,
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/lively_motion_near_duplicate_end_frames_fail",
+      "expected": {
+        "audit_lively_motion_returncode": 1,
+        "lively_motion_status": "fail"
+      },
+      "actual": {
+        "audit_lively_motion_returncode": 1,
+        "lively_motion_status": "fail"
+      },
+      "evidence": [
+        "audit_lively_motion_returncode=1",
+        "audit_lively_motion_stdout_last=- near-duplicate dead-frame run detected: [5, 6]"
+      ]
+    },
+    {
+      "name": "lively_motion_secondary_motion_pass",
+      "description": "A component plan repaired with bounded secondary motion should pass part consistency and lively motion audit.",
+      "passed": true,
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/lively_motion_secondary_motion_pass",
+      "expected": {
+        "audit_lively_motion_returncode": 0,
+        "lively_motion_status": "pass"
+      },
+      "actual": {
+        "audit_lively_motion_returncode": 0,
+        "lively_motion_status": "pass"
+      },
+      "evidence": [
+        "add_secondary_motion_pass.py_returncode=0",
+        "add_secondary_motion_pass.py_stdout_last=}",
+        "generate_component_keyposes.py_returncode=0",
+        "generate_component_keyposes.py_stdout_last=/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/lively_motion_secondary_motion_pass/component_keyposes",
+        "audit_part_consistency.py_returncode=0",
+        "audit_part_consistency.py_stdout_last=PASS: part consistency audit",
+        "audit_lively_motion.py_returncode=0",
+        "audit_lively_motion.py_stdout_last=PASS: lively motion audit"
+      ]
+    },
+    {
+      "name": "lively_motion_tail_locked_fail",
+      "description": "A declared tail that stays locked to the torso must fail lively motion audit.",
+      "passed": true,
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/lively_motion_tail_locked_fail",
+      "expected": {
+        "audit_lively_motion_returncode": 1,
+        "lively_motion_status": "fail"
+      },
+      "actual": {
+        "audit_lively_motion_returncode": 1,
+        "lively_motion_status": "fail"
+      },
+      "evidence": [
+        "audit_lively_motion_returncode=1",
+        "audit_lively_motion_stdout_last=- tail is declared but visually locked"
+      ]
+    },
+    {
+      "name": "lively_motion_whole_body_bob_only_fail",
+      "description": "Whole-body bob/placement motion without internal part articulation must fail lively motion audit.",
+      "passed": true,
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/lively_motion_whole_body_bob_only_fail",
+      "expected": {
+        "audit_lively_motion_returncode": 1,
+        "lively_motion_status": "fail"
+      },
+      "actual": {
+        "audit_lively_motion_returncode": 1,
+        "lively_motion_status": "fail"
+      },
+      "evidence": [
+        "audit_lively_motion_returncode=1",
+        "audit_lively_motion_stdout_last=- near-duplicate dead frames near loop end: [5]"
+      ]
+    },
+    {
+      "name": "manual_required_fail",
+      "description": "manual_required identity review must block production approval.",
+      "passed": true,
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/manual_required_fail",
+      "expected": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_returncode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "actual": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_mode": "skip",
+        "validate_admission_returncode": "skip",
+        "validate_manifest_mode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "evidence": [
+        "finalize_returncode=1",
+        "production_approved=False",
+        "finalize_stdout_last=- keypose_freeze_manifest.json.requirements.identity must be pass, got manual_required",
+        "validate_admission=skipped",
+        "validate_manifest=skipped"
+      ]
+    },
+    {
+      "name": "missing_visual_review_fail",
+      "description": "Missing visual-review.json must block production approval.",
+      "passed": true,
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/missing_visual_review_fail",
+      "expected": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_returncode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "actual": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_mode": "skip",
+        "validate_admission_returncode": "skip",
+        "validate_manifest_mode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "evidence": [
+        "finalize_returncode=1",
+        "production_approved=False",
+        "finalize_stdout_last=- visual-review.json must confirm animation_reviewed=true",
+        "validate_admission=skipped",
+        "validate_manifest=skipped"
+      ]
+    },
+    {
+      "name": "pass",
+      "description": "Evidence-complete run should finalize and validate as production-approved.",
+      "passed": true,
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/pass",
+      "expected": {
+        "finalize_returncode": 0,
+        "production_approved": true,
+        "validate_admission_returncode": 0,
+        "validate_manifest_returncode": 0
+      },
+      "actual": {
+        "finalize_returncode": 0,
+        "production_approved": true,
+        "validate_admission_mode": "run",
+        "validate_admission_returncode": 0,
+        "validate_manifest_mode": "run",
+        "validate_manifest_returncode": 0
+      },
+      "evidence": [
+        "finalize_returncode=0",
+        "production_approved=True",
+        "finalize_stdout_last=/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/pass",
+        "validate_admission_returncode=0",
+        "validate_admission_stdout_last=PASS: admission validation",
+        "validate_manifest_returncode=0",
+        "validate_manifest_stdout_last=PASS: manifest validation"
+      ]
+    },
+    {
+      "name": "retry_budget_identity_drift_pivot",
+      "description": "Production approval must fail when retry_tax_report.json requires a route pivot.",
+      "passed": true,
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/retry_budget_identity_drift_pivot",
+      "expected": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_returncode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "actual": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_mode": "skip",
+        "validate_admission_returncode": "skip",
+        "validate_manifest_mode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "evidence": [
+        "finalize_returncode=1",
+        "production_approved=False",
+        "finalize_stdout_last=- retry_tax enforcement status must be pass for production approval, got pivot_required",
+        "validate_admission=skipped",
+        "validate_manifest=skipped"
+      ]
+    },
+    {
+      "name": "route_selector_missing_report_fail",
+      "description": "Production approval must fail when source_route_selection_report.json is missing.",
+      "passed": true,
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/route_selector_missing_report_fail",
+      "expected": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_returncode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "actual": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_mode": "skip",
+        "validate_admission_returncode": "skip",
+        "validate_manifest_mode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "evidence": [
+        "finalize_returncode=1",
+        "production_approved=False",
+        "finalize_stdout_last=- route_selection enforcement status must be pass for production approval, got missing",
+        "validate_admission=skipped",
+        "validate_manifest=skipped"
+      ]
+    },
+    {
+      "name": "smoke_fail",
+      "description": "Pipeline-smoke route must not be production-approved.",
+      "passed": true,
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/smoke_fail",
+      "expected": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_returncode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "actual": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_mode": "skip",
+        "validate_admission_returncode": "skip",
+        "validate_manifest_mode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "evidence": [
+        "finalize_returncode=1",
+        "production_approved=False",
+        "finalize_stdout_last=- keypose_freeze_manifest.json.requirements.lively_motion must be pass, got not_required",
+        "validate_admission=skipped",
+        "validate_manifest=skipped"
+      ]
+    },
+    {
+      "name": "source_animation_missing_part_map_fail",
+      "description": "Source-animation production route must fail when part_map.json is missing.",
+      "passed": true,
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/source_animation_missing_part_map_fail",
+      "expected": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_returncode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "actual": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_mode": "skip",
+        "validate_admission_returncode": "skip",
+        "validate_manifest_mode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "evidence": [
+        "finalize_returncode=1",
+        "production_approved=False",
+        "finalize_stdout_last=- action_component_plan enforcement status must be pass for production approval, got missing",
+        "validate_admission=skipped",
+        "validate_manifest=skipped"
+      ]
+    },
+    {
+      "name": "source_animation_part_consistency_fail",
+      "description": "Source-animation production route must fail when part_consistency_report.json is not pass.",
+      "passed": true,
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/source_animation_part_consistency_fail",
+      "expected": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_returncode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "actual": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_mode": "skip",
+        "validate_admission_returncode": "skip",
+        "validate_manifest_mode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "evidence": [
+        "finalize_returncode=1",
+        "production_approved=False",
+        "finalize_stdout_last=- part_consistency enforcement status must be pass for production approval, got fail",
+        "validate_admission=skipped",
+        "validate_manifest=skipped"
+      ]
+    },
+    {
+      "name": "tooncrafter_missing_audit_fail",
+      "description": "ToonCrafter adapter output must fail production approval when interpolated_segment_audit.json is missing.",
+      "passed": true,
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_40ronokm/tooncrafter_missing_audit_fail",
+      "expected": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_returncode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "actual": {
+        "finalize_returncode": 1,
+        "production_approved": false,
+        "validate_admission_mode": "skip",
+        "validate_admission_returncode": "skip",
+        "validate_manifest_mode": "skip",
+        "validate_manifest_returncode": "skip"
+      },
+      "evidence": [
+        "finalize_returncode=1",
+        "production_approved=False",
+        "finalize_stdout_last=- tooncrafter_audit enforcement status must be pass for production approval, got missing",
+        "validate_admission=skipped",
+        "validate_manifest=skipped"
+      ]
+    }
+  ]
+}

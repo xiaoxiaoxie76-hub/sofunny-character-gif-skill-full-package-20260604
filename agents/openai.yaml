@@ -1,0 +1,4 @@
+interface:
+  display_name: "SoFunny Character GIF"
+  short_description: "Turn one SoFunny character image into a stable lively GIF."
+  default_prompt: "Use $sofunny-character-gif to turn one canonical SoFunny character image into a lively GIF with identity lock, motion contract, visual QA, and sprite packaging handoff."

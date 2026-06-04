@@ -1,0 +1,17 @@
+{
+  "schema_version": "sofunny-regression-case.v1",
+  "name": "route_selector_missing_report_fail",
+  "description": "Production approval must fail when source_route_selection_report.json is missing.",
+  "fixture": {
+    "identity_status": "pass",
+    "smoke": false,
+    "omit_visual_review": false,
+    "omit_route_selection": true
+  },
+  "expect": {
+    "finalize_returncode": 1,
+    "production_approved": false,
+    "validate_admission_returncode": "skip",
+    "validate_manifest_returncode": "skip"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": "sofunny-regression-case.v1",
+  "name": "lively_motion_near_duplicate_end_frames_fail",
+  "description": "Near-duplicate dead frames at the end of a loop must fail lively motion audit.",
+  "fixture": {
+    "type": "lively_motion",
+    "scenario": "near_duplicate_end_frames_fail"
+  },
+  "expect": {
+    "audit_lively_motion_returncode": 1,
+    "lively_motion_status": "fail"
+  }
+}

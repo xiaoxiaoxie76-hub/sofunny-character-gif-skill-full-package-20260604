@@ -1,0 +1,16 @@
+{
+  "schema_version": "sofunny-regression-case.v1",
+  "name": "manual_required_fail",
+  "description": "manual_required identity review must block production approval.",
+  "fixture": {
+    "identity_status": "manual_required",
+    "smoke": false,
+    "omit_visual_review": false
+  },
+  "expect": {
+    "finalize_returncode": 1,
+    "production_approved": false,
+    "validate_admission_returncode": "skip",
+    "validate_manifest_returncode": "skip"
+  }
+}

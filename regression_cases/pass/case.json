@@ -1,0 +1,16 @@
+{
+  "schema_version": "sofunny-regression-case.v1",
+  "name": "pass",
+  "description": "Evidence-complete run should finalize and validate as production-approved.",
+  "fixture": {
+    "identity_status": "pass",
+    "smoke": false,
+    "omit_visual_review": false
+  },
+  "expect": {
+    "finalize_returncode": 0,
+    "production_approved": true,
+    "validate_admission_returncode": 0,
+    "validate_manifest_returncode": 0
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": "sofunny-regression-case.v1",
+  "name": "source_animation_missing_part_map_fail",
+  "description": "Source-animation production route must fail when part_map.json is missing.",
+  "fixture": {
+    "identity_status": "pass",
+    "smoke": false,
+    "omit_visual_review": false,
+    "omit_part_map": true
+  },
+  "expect": {
+    "finalize_returncode": 1,
+    "production_approved": false,
+    "validate_admission_returncode": "skip",
+    "validate_manifest_returncode": "skip"
+  }
+}

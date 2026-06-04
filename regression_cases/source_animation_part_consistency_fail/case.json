@@ -1,0 +1,17 @@
+{
+  "schema_version": "sofunny-regression-case.v1",
+  "name": "source_animation_part_consistency_fail",
+  "description": "Source-animation production route must fail when part_consistency_report.json is not pass.",
+  "fixture": {
+    "identity_status": "pass",
+    "smoke": false,
+    "omit_visual_review": false,
+    "part_consistency_status": "fail"
+  },
+  "expect": {
+    "finalize_returncode": 1,
+    "production_approved": false,
+    "validate_admission_returncode": "skip",
+    "validate_manifest_returncode": "skip"
+  }
+}

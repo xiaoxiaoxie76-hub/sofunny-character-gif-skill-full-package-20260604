@@ -1,0 +1,17 @@
+{
+  "schema_version": "sofunny-regression-case.v1",
+  "name": "retry_budget_identity_drift_pivot",
+  "description": "Production approval must fail when retry_tax_report.json requires a route pivot.",
+  "fixture": {
+    "identity_status": "pass",
+    "smoke": false,
+    "omit_visual_review": false,
+    "retry_pivot_required": true
+  },
+  "expect": {
+    "finalize_returncode": 1,
+    "production_approved": false,
+    "validate_admission_returncode": "skip",
+    "validate_manifest_returncode": "skip"
+  }
+}

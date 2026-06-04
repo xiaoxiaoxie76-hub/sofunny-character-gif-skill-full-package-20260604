@@ -1,0 +1,144 @@
+{
+  "schema_version": "sofunny-profile.v1",
+  "profile_name": "sofunny",
+  "profile_type": "production",
+  "unknown_keys_policy": "fail",
+  "default_canvas": "384x384",
+  "default_background": "#00ff00",
+  "default_keypose_count": {
+    "smoke": 6,
+    "production": 12
+  },
+  "style_rules": [
+    "clean SoFunny mobile-game icon line style",
+    "stable compact character silhouette",
+    "no heavier generic provider redraw",
+    "no checkerboard, fake transparency, text, labels, UI, or watermark"
+  ],
+  "identity_features": [
+    "same compact original head/face silhouette",
+    "small thin black glasses placed low over half-lidded eyes when present",
+    "small symbolic nose/mouth/teeth, no large muzzle redesign",
+    "original hair/hat/ear silhouette when present",
+    "same costume/accessory proportions",
+    "tail attachment, tail volume, and tail stripe rhythm when the character has a tail",
+    "same palette family and line weight"
+  ],
+  "motion_defaults": {
+    "default_action": "small_jog_front",
+    "duration_ms": 90,
+    "actions": {
+      "small_jog_front": {
+        "requires_manual_phase_review": true,
+        "phases_6": [
+          "left_contact_down",
+          "left_push_off",
+          "flight_passing_left_to_right",
+          "right_contact_down",
+          "right_push_off",
+          "flight_recover_to_left_contact"
+        ],
+        "phases_12": [
+          "contact_left",
+          "down_left",
+          "passing_left",
+          "up_left",
+          "contact_right",
+          "down_right",
+          "passing_right",
+          "up_right",
+          "contact_left",
+          "settle",
+          "recover",
+          "loop_return"
+        ],
+        "required_global_checks": [
+          "arm_leg_opposition",
+          "tail_lag",
+          "shadow_contact_logic",
+          "frame_5_loops_to_frame_0",
+          "same_character_all_frames"
+        ],
+        "phase_semantics": {
+          "left_contact_down": "left foot reads as planted contact with the body compressed downward",
+          "left_push_off": "left leg visibly pushes off while the opposite leg prepares to pass",
+          "flight_passing_left_to_right": "legs pass through a readable mid-step flight pose",
+          "right_contact_down": "right foot reads as planted contact with the body compressed downward",
+          "right_push_off": "right leg visibly pushes off while the opposite leg prepares to pass",
+          "flight_recover_to_left_contact": "pose recovers cleanly into the loop back to left contact",
+          "contact_left": "left-side contact pose with stable ground contact",
+          "down_left": "left-side down/compression phase coupled to foot contact",
+          "passing_left": "left-to-right passing phase with leg separation",
+          "up_left": "up phase after left-side push-off",
+          "contact_right": "right-side contact pose with stable ground contact",
+          "down_right": "right-side down/compression phase coupled to foot contact",
+          "passing_right": "right-to-left passing phase with leg separation",
+          "up_right": "up phase after right-side push-off",
+          "settle": "settle phase without losing identity or tail attachment",
+          "recover": "recovery phase that prepares the loop return",
+          "loop_return": "final frame connects back to the first contact pose"
+        },
+        "required_visual_changes": [
+          "alternating foot contact",
+          "lower-body pose change, not whole-body translation only",
+          "body bounce coupled to contact and push-off",
+          "arm-leg opposition",
+          "tail lag remains attached and fully visible",
+          "shadow/contact logic changes with contact and flight"
+        ]
+      }
+    }
+  },
+  "thresholds": {
+    "provider_preflight": {
+      "green_tolerance": 8,
+      "max_bbox_bottom_range_px": 4.0,
+      "max_bbox_width_range_px": 24.0,
+      "max_bbox_height_range_px": 24.0,
+      "edge_margin_px": 1
+    },
+    "jitter": {
+      "max_bbox_bottom_range_px": 1.0,
+      "max_anchor_center_x_range_px": 6.0
+    },
+    "visual_stability": {
+      "max_bbox_top_range_px": 14.0,
+      "max_bbox_height_range_px": 18.0,
+      "max_bbox_width_range_px": 12.0,
+      "max_top_centroid_x_range_px": 8.0,
+      "max_mid_centroid_x_range_px": 8.0,
+      "max_top_centroid_y_range_px": 18.0,
+      "max_mid_centroid_y_range_px": 18.0,
+      "max_alpha_area_range_ratio": 0.08
+    },
+    "body_tail": {
+      "max_bbox_width_range_px": 12.0,
+      "max_bbox_height_range_px": 10.0,
+      "max_alpha_area_ratio": 0.10,
+      "min_right_margin_px": 24,
+      "min_tail_region_width_px": 34,
+      "min_tail_region_alpha_area": 2200,
+      "alpha_threshold": 96
+    },
+    "identity_consistency": {
+      "min_pair_ssim": 0.58,
+      "max_pair_color_distance": 0.11,
+      "max_bbox_width_range_px": 18.0,
+      "max_bbox_height_range_px": 18.0,
+      "max_alpha_area_range_ratio": 0.12,
+      "max_bbox_aspect_range": 0.16,
+      "min_reference_ssim": 0.45
+    },
+    "action_contract": {
+      "small_jog_front": {
+        "min_lower_body_pose_delta": 120,
+        "max_lower_body_delta_ratio": 3.0
+      }
+    }
+  },
+  "asset_paths": {
+    "character_dir": "/Users/xiexiaoxiao/Desktop/SoFunnyWork/Lili角色",
+    "gif_dir": "/Users/xiexiaoxiao/Desktop/SoFunnyWork/Lili gif",
+    "default_timing_reference": "/Users/xiexiaoxiao/Desktop/SoFunnyWork/Lili gif/beav_gacha/beav_gacha-action_walk_01_front.gif"
+  }
+}

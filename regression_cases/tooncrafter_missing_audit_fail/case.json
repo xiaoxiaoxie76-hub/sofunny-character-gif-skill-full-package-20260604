@@ -1,0 +1,18 @@
+{
+  "schema_version": "sofunny-regression-case.v1",
+  "name": "tooncrafter_missing_audit_fail",
+  "description": "ToonCrafter adapter output must fail production approval when interpolated_segment_audit.json is missing.",
+  "fixture": {
+    "identity_status": "pass",
+    "smoke": false,
+    "omit_visual_review": false,
+    "adapter": "tooncrafter",
+    "omit_adapter_audit": true
+  },
+  "expect": {
+    "finalize_returncode": 1,
+    "production_approved": false,
+    "validate_admission_returncode": "skip",
+    "validate_manifest_returncode": "skip"
+  }
+}

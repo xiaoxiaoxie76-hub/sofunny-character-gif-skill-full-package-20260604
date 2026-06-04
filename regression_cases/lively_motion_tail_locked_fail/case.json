@@ -1,0 +1,13 @@
+{
+  "schema_version": "sofunny-regression-case.v1",
+  "name": "lively_motion_tail_locked_fail",
+  "description": "A declared tail that stays locked to the torso must fail lively motion audit.",
+  "fixture": {
+    "type": "lively_motion",
+    "scenario": "tail_locked_fail"
+  },
+  "expect": {
+    "audit_lively_motion_returncode": 1,
+    "lively_motion_status": "fail"
+  }
+}

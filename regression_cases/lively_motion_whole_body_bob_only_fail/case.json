@@ -1,0 +1,13 @@
+{
+  "schema_version": "sofunny-regression-case.v1",
+  "name": "lively_motion_whole_body_bob_only_fail",
+  "description": "Whole-body bob/placement motion without internal part articulation must fail lively motion audit.",
+  "fixture": {
+    "type": "lively_motion",
+    "scenario": "whole_body_bob_only_fail"
+  },
+  "expect": {
+    "audit_lively_motion_returncode": 1,
+    "lively_motion_status": "fail"
+  }
+}
