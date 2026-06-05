@@ -1,8 +1,8 @@
 {
   "schema_version": "sofunny-admission-enforcement-audit.v1",
-  "generated_at": "2026-06-04T16:12:39.242989+00:00",
+  "generated_at": "2026-06-04T21:47:30.974705+00:00",
   "status": "pass",
-  "skill_root": "/Users/archiesun/.codex/skills/sofunny-character-gif",
+  "skill_root": "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif",
   "required_artifacts": {
     "by_source": {
       "SKILL.md:Admission Boundary": [
@@ -87,6 +87,7 @@
         "keypose_freeze_manifest.json"
       ],
       "gif-export-contract.md:Required Export Report": [
+        "animation-transparent.gif",
         "animation.gif",
         "animation.webp",
         "animation_checker.gif",
@@ -98,6 +99,7 @@
       "accepted_keyposes/",
       "action_component_plan.json",
       "action_validation_report.json",
+      "animation-transparent.gif",
       "animation.gif",
       "animation.webp",
       "animation_checker.gif",
