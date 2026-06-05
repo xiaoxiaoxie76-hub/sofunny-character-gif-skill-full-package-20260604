@@ -1,6 +1,6 @@
 # SoFunny Regression Report
 
-Generated: 2026-06-04T16:12:41.927018+00:00
+Generated: 2026-06-04T21:47:42.642502+00:00
 Status: `pass`
 
 ## Command Checks
@@ -35,6 +35,13 @@ Status: `pass`
 - PASS: `component_generation_gate_smoke` returncode=0
 - PASS: `freeze_enforcement_smoke` returncode=0
 - PASS: `coin_flip_deal_nod_action_contract_smoke` returncode=0
+- PASS: `provider_packaging_quality_smoke` returncode=0
+- PASS: `provider_source_margin_gate_smoke` returncode=1
+- PASS: `fit_ground_stability_smoke` returncode=0
+- PASS: `provider_proportion_gate_smoke` returncode=1
+- PASS: `character_action_brief_smoke` returncode=0
+- PASS: `oneshot_candidate_required_smoke` returncode=1
+- PASS: `oneshot_diagnostic_local_bow_smoke` returncode=1
 
 ## Cases
 
@@ -68,7 +75,7 @@ Evidence:
 - add_secondary_motion_pass.py_returncode=0
 - add_secondary_motion_pass.py_stdout_last=}
 - generate_component_keyposes.py_returncode=0
-- generate_component_keyposes.py_stdout_last=/private/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/lively_motion_secondary_motion_pass/component_keyposes
+- generate_component_keyposes.py_stdout_last=/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/lively_motion_secondary_motion_pass/component_keyposes
 - audit_part_consistency.py_returncode=0
 - audit_part_consistency.py_stdout_last=PASS: part consistency audit
 - audit_lively_motion.py_returncode=0
@@ -124,7 +131,7 @@ Evidence:
 
 - finalize_returncode=0
 - production_approved=True
-- finalize_stdout_last=/private/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/pass
+- finalize_stdout_last=/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/pass
 - validate_admission_returncode=0
 - validate_admission_stdout_last=PASS: admission validation
 - validate_manifest_returncode=0
