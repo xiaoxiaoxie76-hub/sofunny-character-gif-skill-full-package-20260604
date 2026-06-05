@@ -1,6 +1,6 @@
 # Admission Enforcement Audit
 
-Generated: 2026-06-04T16:12:39.242989+00:00
+Generated: 2026-06-04T21:47:30.974705+00:00
 Status: `pass`
 
 ## Required Final Artifacts
@@ -95,6 +95,7 @@ Status: `pass`
 
 ### gif-export-contract.md:Required Export Report
 
+- `animation-transparent.gif`
 - `animation.gif`
 - `animation.webp`
 - `animation_checker.gif`
