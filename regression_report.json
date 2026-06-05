@@ -1,30 +1,30 @@
 {
   "schema_version": "sofunny-regression-report.v1",
-  "generated_at": "2026-06-04T16:12:41.927018+00:00",
+  "generated_at": "2026-06-04T21:47:42.642502+00:00",
   "status": "pass",
-  "skill_root": "/Users/archiesun/.codex/skills/sofunny-character-gif",
-  "cases_dir": "/Users/archiesun/.codex/skills/sofunny-character-gif/regression_cases",
+  "skill_root": "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif",
+  "cases_dir": "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/regression_cases",
   "temp_root": null,
   "checks": [
     {
       "name": "quick_validate_skill",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/quick_validate_skill.py"
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/quick_validate_skill.py"
       ],
       "returncode": 0,
       "passed": true,
       "stdout_tail": [
         "PASS: SoFunny skill structure is valid",
-        "SKILL.md lines: 171"
+        "SKILL.md lines: 173"
       ],
       "stderr_tail": []
     },
     {
       "name": "validate_profile_sofunny",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/validate_profile.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/validate_profile.py",
         "--profile",
         "sofunny"
       ],
@@ -34,7 +34,7 @@
         "{",
         "  \"status\": \"pass\",",
         "  \"profile_name\": \"sofunny\",",
-        "  \"profile_path\": \"/Users/archiesun/.codex/skills/sofunny-character-gif/profiles/sofunny.json\",",
+        "  \"profile_path\": \"/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/profiles/sofunny.json\",",
         "  \"failures\": []",
         "}"
       ],
@@ -43,8 +43,8 @@
     {
       "name": "validate_profile_default",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/validate_profile.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/validate_profile.py",
         "--profile",
         "default-character-gif"
       ],
@@ -54,7 +54,7 @@
         "{",
         "  \"status\": \"pass\",",
         "  \"profile_name\": \"default-character-gif\",",
-        "  \"profile_path\": \"/Users/archiesun/.codex/skills/sofunny-character-gif/profiles/default-character-gif.json\",",
+        "  \"profile_path\": \"/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/profiles/default-character-gif.json\",",
         "  \"failures\": []",
         "}"
       ],
@@ -63,10 +63,10 @@
     {
       "name": "audit_admission_enforcement",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/audit_admission_enforcement.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/audit_admission_enforcement.py",
         "--output-dir",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif"
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif"
       ],
       "returncode": 0,
       "passed": true,
@@ -76,8 +76,8 @@
         "  \"p0\": 0,",
         "  \"p1\": 0,",
         "  \"p2\": 0,",
-        "  \"json\": \"/Users/archiesun/.codex/skills/sofunny-character-gif/admission_enforcement_audit.json\",",
-        "  \"md\": \"/Users/archiesun/.codex/skills/sofunny-character-gif/admission_enforcement_audit.md\"",
+        "  \"json\": \"/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/admission_enforcement_audit.json\",",
+        "  \"md\": \"/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/admission_enforcement_audit.md\"",
         "}"
       ],
       "stderr_tail": []
@@ -85,8 +85,8 @@
     {
       "name": "route_select_small_jog",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/select_source_animation_route.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/select_source_animation_route.py",
         "--action",
         "small_jog_front",
         "--run-type",
@@ -109,8 +109,8 @@
     {
       "name": "route_select_blocks_production_full_frame_redraw",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/select_source_animation_route.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/select_source_animation_route.py",
         "--action",
         "small_jog_front",
         "--run-type",
@@ -135,8 +135,8 @@
     {
       "name": "route_select_sherry_tail_wave_greeting",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/select_source_animation_route.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/select_source_animation_route.py",
         "--action",
         "sherry_tail_wave_greeting",
         "--run-type",
@@ -159,8 +159,8 @@
     {
       "name": "route_select_catch_falling_petal",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/select_source_animation_route.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/select_source_animation_route.py",
         "--action",
         "catch_falling_petal",
         "--run-type",
@@ -183,8 +183,8 @@
     {
       "name": "route_select_catch_falling_petal_blocks_candidate_pseudo_rig",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/select_source_animation_route.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/select_source_animation_route.py",
         "--action",
         "catch_falling_petal",
         "--run-type",
@@ -209,8 +209,8 @@
     {
       "name": "route_select_catch_falling_petal_blocks_pseudo_rig",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/select_source_animation_route.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/select_source_animation_route.py",
         "--action",
         "catch_falling_petal",
         "--run-type",
@@ -235,8 +235,8 @@
     {
       "name": "route_select_coin_flip_prop_action",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/select_source_animation_route.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/select_source_animation_route.py",
         "--action",
         "coin_flip_deal_nod_v3",
         "--run-type",
@@ -259,8 +259,8 @@
     {
       "name": "route_select_coin_flip_blocks_local_transform",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/select_source_animation_route.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/select_source_animation_route.py",
         "--action",
         "coin_flip_deal_nod_v3",
         "--run-type",
@@ -285,8 +285,8 @@
     {
       "name": "adapter_select_tooncrafter_requires_approved_keyposes",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/select_route_adapter.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/select_route_adapter.py",
         "--route",
         "interpolation_route",
         "--adapter",
@@ -310,8 +310,8 @@
     {
       "name": "adapter_select_tooncrafter_with_approved_keyposes",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/select_route_adapter.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/select_route_adapter.py",
         "--route",
         "interpolation_route",
         "--adapter",
@@ -336,8 +336,8 @@
     {
       "name": "adapter_select_animate_requires_deid_reimport",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/select_route_adapter.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/select_route_adapter.py",
         "--route",
         "external_animation_provider_candidate",
         "--adapter",
@@ -360,8 +360,8 @@
     {
       "name": "adapter_select_ipadapter_external_upload_blocked",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/select_route_adapter.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/select_route_adapter.py",
         "--route",
         "local_part_transform_or_masked_edit",
         "--adapter",
@@ -386,8 +386,8 @@
     {
       "name": "adapter_select_spine_blocks_first_round_mvp",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/select_route_adapter.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/select_route_adapter.py",
         "--route",
         "lora_ipadapter_or_component_rig_candidate",
         "--adapter",
@@ -411,8 +411,8 @@
     {
       "name": "retry_tax_single_attempt_allows_continue",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/retry_tax_report.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/retry_tax_report.py",
         "--attempt",
         "full_frame_redraw:identity_drift"
       ],
@@ -433,8 +433,8 @@
     {
       "name": "retry_tax_repeated_identity_drift_requires_pivot",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/retry_tax_report.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/retry_tax_report.py",
         "--attempt",
         "full_frame_redraw:identity_drift",
         "--attempt",
@@ -457,8 +457,8 @@
     {
       "name": "retry_tax_same_route_two_failures_requires_pivot",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/retry_tax_report.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/retry_tax_report.py",
         "--attempt",
         "full_frame_redraw:identity_drift",
         "--attempt",
@@ -481,8 +481,8 @@
     {
       "name": "retry_tax_same_failure_two_routes_requires_pivot",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/retry_tax_report.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/retry_tax_report.py",
         "--attempt",
         "full_frame_redraw:identity_drift",
         "--attempt",
@@ -505,14 +505,14 @@
     {
       "name": "animatex_blocks_small_action",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/create_animatex_packet.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/create_animatex_packet.py",
         "--run-dir",
-        "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/animatex_small_action",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/animatex_small_action",
         "--canonical-reference",
-        "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/missing.png",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/missing.png",
         "--motion-video",
-        "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/missing.mp4",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/missing.mp4",
         "--action",
         "small_jog_front",
         "--deidentified-motion"
@@ -534,11 +534,11 @@
       "stdout_tail": [
         "  \"status\": \"pass\",",
         "  \"frames\": 4,",
-        "  \"report\": \"/private/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/tooncrafter_smoke/tooncrafter_import_report.json\"",
+        "  \"report\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/tooncrafter_smoke/tooncrafter_import_report.json\"",
         "}",
         "{",
         "  \"status\": \"pass\",",
-        "  \"report\": \"/private/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/tooncrafter_smoke/interpolated_segment_audit.json\"",
+        "  \"report\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/tooncrafter_smoke/interpolated_segment_audit.json\"",
         "}"
       ],
       "stderr_tail": []
@@ -551,13 +551,13 @@
       "returncode": 0,
       "passed": true,
       "stdout_tail": [
-        "  \"packet\": \"/private/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/ipadapter_smoke/ipadapter_part_repair_packets/face\",",
+        "  \"packet\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/ipadapter_smoke/ipadapter_part_repair_packets/face\",",
         "  \"part_name\": \"face\"",
         "}",
         "{",
         "  \"status\": \"pass\",",
-        "  \"report\": \"/private/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/ipadapter_smoke/ipadapter_part_repair_import_report.json\",",
-        "  \"output_frame\": \"/private/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/ipadapter_smoke/ipadapter_repaired_frames/face/repaired_frame.png\"",
+        "  \"report\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/ipadapter_smoke/ipadapter_part_repair_import_report.json\",",
+        "  \"output_frame\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/ipadapter_smoke/ipadapter_repaired_frames/face/repaired_frame.png\"",
         "}"
       ],
       "stderr_tail": []
@@ -572,11 +572,11 @@
       "stdout_tail": [
         "  \"status\": \"pass\",",
         "  \"frames\": 8,",
-        "  \"report\": \"/private/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/animatex_smoke/animatex_import_report.json\"",
+        "  \"report\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/animatex_smoke/animatex_import_report.json\"",
         "}",
         "{",
         "  \"status\": \"pass\",",
-        "  \"report\": \"/private/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/animatex_smoke/video_provider_frame_audit.json\"",
+        "  \"report\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/animatex_smoke/video_provider_frame_audit.json\"",
         "}"
       ],
       "stderr_tail": []
@@ -596,21 +596,21 @@
     {
       "name": "catch_falling_petal_hard_split_blocks_generation",
       "command": [
-        "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-        "/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/generate_component_keyposes.py",
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/generate_component_keyposes.py",
         "--run-dir",
-        "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/catch_falling_petal_hard_split_block"
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/catch_falling_petal_hard_split_block"
       ],
       "returncode": 1,
       "passed": true,
       "stdout_tail": [],
       "stderr_tail": [
+        "Traceback (most recent call last):",
+        "  File \"/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/generate_component_keyposes.py\", line 302, in <module>",
         "    raise SystemExit(main())",
-        "                     ~~~~^^",
-        "  File \"/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/generate_component_keyposes.py\", line 203, in main",
+        "  File \"/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/generate_component_keyposes.py\", line 203, in main",
         "    reject_dirty_component_source(run_dir, part_map, action_plan)",
-        "    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
-        "  File \"/Users/archiesun/.codex/skills/sofunny-character-gif/scripts/generate_component_keyposes.py\", line 137, in reject_dirty_component_source",
+        "  File \"/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/generate_component_keyposes.py\", line 137, in reject_dirty_component_source",
         "    raise ValueError(\"; \".join(errors))",
         "ValueError: manual_route_override.status manual_override_required cannot feed deterministic component keypose generation; route_selection_report.status must be pass before component keypose generation, got fail; catch_falling_petal component generation requires clean_layer_component_route; provider/local-redraw candidates must be imported as keyposes; catch_falling_petal cannot use pseudo-rig or source_animation_component_plan_with_local_hand_redraw; part_consistency_report.status must be pass before component keypose generation, got manual_required; component_integrity_report.json is required before component keypose generation; pseudo-rig or local-hand-redraw component routes are diagnostic-only and cannot feed deterministic component keypose generation; part_map.review_status draft_manual_review_required cannot feed deterministic component keypose generation; part_map.segmentation_provenance must declare clean component layers, got missing"
       ]
@@ -651,7 +651,7 @@
         "}",
         "{",
         "  \"status\": \"fail\",",
-        "  \"report\": \"/private/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/freeze_blocks_tooncrafter_missing_audit/keypose_freeze_report.json\",",
+        "  \"report\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/freeze_blocks_tooncrafter_missing_audit/keypose_freeze_report.json\",",
         "  \"failed_requirements\": {",
         "    \"tooncrafter_audit\": \"missing\"",
         "  }",
@@ -677,6 +677,261 @@
         "}"
       ],
       "stderr_tail": []
+    },
+    {
+      "name": "provider_packaging_quality_smoke",
+      "command": [
+        "provider_packaging_quality_smoke"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "{",
+        "  \"status\": \"pass\",",
+        "  \"report\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/provider_packaging_quality/locked_gif_export_report.json\",",
+        "  \"animation\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/provider_packaging_quality/animation.gif\"",
+        "}",
+        "robe_alpha=255",
+        "final_min_margin=24",
+        "source_margin_status=pass",
+        "source_proportion_status=pass",
+        "accepted_median_saturation=0.4590",
+        "gif_median_saturation=0.4590",
+        "gif_export_mode=matte_rgb_white"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "provider_source_margin_gate_smoke",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/import_candidate_sheet.py",
+        "--input",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/touching_provider_sheet.png",
+        "--run-dir",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/provider_source_margin_gate",
+        "--frames",
+        "1",
+        "--canvas",
+        "128x128",
+        "--layout",
+        "grid",
+        "--rows",
+        "1",
+        "--columns",
+        "1",
+        "--placement-mode",
+        "fit-slot",
+        "--component-mode",
+        "largest",
+        "--background",
+        "white",
+        "--min-source-cell-margin",
+        "8",
+        "--source-margin-policy",
+        "fail",
+        "--action",
+        "fixture_bow",
+        "--character-name",
+        "fixture_character"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [],
+      "stderr_tail": [
+        "Traceback (most recent call last):",
+        "  File \"/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/import_candidate_sheet.py\", line 250, in <module>",
+        "    raise SystemExit(main())",
+        "  File \"/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/import_candidate_sheet.py\", line 161, in main",
+        "    raise ValueError(\"source cell margin gate failed; regenerate with centered frames and safer gutters\")",
+        "ValueError: source cell margin gate failed; regenerate with centered frames and safer gutters"
+      ]
+    },
+    {
+      "name": "fit_ground_stability_smoke",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/import_candidate_sheet.py",
+        "--input",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/fit_ground_sheet.png",
+        "--run-dir",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/fit_ground_stability",
+        "--frames",
+        "2",
+        "--canvas",
+        "128x128",
+        "--layout",
+        "grid",
+        "--rows",
+        "1",
+        "--columns",
+        "2",
+        "--placement-mode",
+        "fit-ground",
+        "--component-mode",
+        "largest",
+        "--background",
+        "white",
+        "--fit-slot-margin",
+        "16",
+        "--min-source-cell-margin",
+        "8",
+        "--action",
+        "fixture_bow",
+        "--character-name",
+        "fixture_character"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/fit_ground_stability",
+        "bottom_range=0",
+        "min_margin=16",
+        "placement_mode=fit-ground"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "provider_proportion_gate_smoke",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/import_candidate_sheet.py",
+        "--input",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/proportion_drift_sheet.png",
+        "--run-dir",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/provider_proportion_gate",
+        "--frames",
+        "2",
+        "--canvas",
+        "128x128",
+        "--layout",
+        "grid",
+        "--rows",
+        "1",
+        "--columns",
+        "2",
+        "--placement-mode",
+        "fit-ground",
+        "--component-mode",
+        "largest",
+        "--background",
+        "white",
+        "--max-adjacent-height-ratio",
+        "0.05",
+        "--proportion-policy",
+        "fail",
+        "--action",
+        "fixture_bow",
+        "--character-name",
+        "fixture_character"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [],
+      "stderr_tail": [
+        "Traceback (most recent call last):",
+        "  File \"/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/import_candidate_sheet.py\", line 250, in <module>",
+        "    raise SystemExit(main())",
+        "  File \"/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/import_candidate_sheet.py\", line 165, in main",
+        "    raise ValueError(\"source proportion gate failed; regenerate with stronger character proportion lock\")",
+        "ValueError: source proportion gate failed; regenerate with stronger character proportion lock"
+      ]
+    },
+    {
+      "name": "character_action_brief_smoke",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/create_provider_brief.py",
+        "--reference",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/hanfu_reference.png",
+        "--run-dir",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/character_action_brief",
+        "--character-name",
+        "fixture_hanfu",
+        "--action",
+        "gentle_bow_flower_sway",
+        "--frames",
+        "16",
+        "--canvas",
+        "512x512"
+      ],
+      "returncode": 0,
+      "passed": true,
+      "stdout_tail": [
+        "/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/character_action_brief/provider_briefs/gentle_bow_flower_sway.md",
+        "brief_schema=sofunny-provider-brief.v2",
+        "measurement_exists=True"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "oneshot_candidate_required_smoke",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/run_sofunny_oneshot.py",
+        "--reference",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/oneshot_reference.png",
+        "--run-dir",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/oneshot_candidate_required",
+        "--character-name",
+        "fixture_hanfu",
+        "--action",
+        "gentle_bow_flower_sway",
+        "--frames",
+        "16",
+        "--canvas",
+        "256x256",
+        "--margin",
+        "32"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [
+        "  \"route\": \"candidate_sheet_required\",",
+        "  \"run_dir\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/oneshot_candidate_required\",",
+        "  \"oneshot_report\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/oneshot_candidate_required/oneshot_report.json\",",
+        "  \"reason\": \"diagnostic fallback is disabled by default; regenerate or provide a valid provider sheet\"",
+        "}",
+        "route=candidate_sheet_required",
+        "gif_exists=False",
+        "freeze_exists=False"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "name": "oneshot_diagnostic_local_bow_smoke",
+      "command": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/run_sofunny_oneshot.py",
+        "--reference",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/oneshot_diagnostic_reference.png",
+        "--run-dir",
+        "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/oneshot_diagnostic_local_bow",
+        "--character-name",
+        "fixture_hanfu",
+        "--action",
+        "gentle_bow_flower_sway",
+        "--frames",
+        "16",
+        "--canvas",
+        "256x256",
+        "--margin",
+        "32",
+        "--allow-diagnostic-fallback"
+      ],
+      "returncode": 1,
+      "passed": true,
+      "stdout_tail": [
+        "  \"status\": \"fail\",",
+        "  \"route\": \"diagnostic_local_fallback\",",
+        "  \"run_dir\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/oneshot_diagnostic_local_bow\",",
+        "  \"animation\": \"/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/oneshot_diagnostic_local_bow/animation.gif\"",
+        "}",
+        "status=fail",
+        "route=diagnostic_local_fallback",
+        "admission_eligible=False"
+      ],
+      "stderr_tail": []
     }
   ],
   "cases": [
@@ -684,7 +939,7 @@
       "name": "identity_drift_fail",
       "description": "Identity drift must block production approval.",
       "passed": true,
-      "run_dir": "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/identity_drift_fail",
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/identity_drift_fail",
       "expected": {
         "finalize_returncode": 1,
         "production_approved": false,
@@ -711,7 +966,7 @@
       "name": "lively_motion_near_duplicate_end_frames_fail",
       "description": "Near-duplicate dead frames at the end of a loop must fail lively motion audit.",
       "passed": true,
-      "run_dir": "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/lively_motion_near_duplicate_end_frames_fail",
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/lively_motion_near_duplicate_end_frames_fail",
       "expected": {
         "audit_lively_motion_returncode": 1,
         "lively_motion_status": "fail"
@@ -729,7 +984,7 @@
       "name": "lively_motion_secondary_motion_pass",
       "description": "A component plan repaired with bounded secondary motion should pass part consistency and lively motion audit.",
       "passed": true,
-      "run_dir": "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/lively_motion_secondary_motion_pass",
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/lively_motion_secondary_motion_pass",
       "expected": {
         "audit_lively_motion_returncode": 0,
         "lively_motion_status": "pass"
@@ -742,7 +997,7 @@
         "add_secondary_motion_pass.py_returncode=0",
         "add_secondary_motion_pass.py_stdout_last=}",
         "generate_component_keyposes.py_returncode=0",
-        "generate_component_keyposes.py_stdout_last=/private/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/lively_motion_secondary_motion_pass/component_keyposes",
+        "generate_component_keyposes.py_stdout_last=/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/lively_motion_secondary_motion_pass/component_keyposes",
         "audit_part_consistency.py_returncode=0",
         "audit_part_consistency.py_stdout_last=PASS: part consistency audit",
         "audit_lively_motion.py_returncode=0",
@@ -753,7 +1008,7 @@
       "name": "lively_motion_tail_locked_fail",
       "description": "A declared tail that stays locked to the torso must fail lively motion audit.",
       "passed": true,
-      "run_dir": "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/lively_motion_tail_locked_fail",
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/lively_motion_tail_locked_fail",
       "expected": {
         "audit_lively_motion_returncode": 1,
         "lively_motion_status": "fail"
@@ -771,7 +1026,7 @@
       "name": "lively_motion_whole_body_bob_only_fail",
       "description": "Whole-body bob/placement motion without internal part articulation must fail lively motion audit.",
       "passed": true,
-      "run_dir": "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/lively_motion_whole_body_bob_only_fail",
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/lively_motion_whole_body_bob_only_fail",
       "expected": {
         "audit_lively_motion_returncode": 1,
         "lively_motion_status": "fail"
@@ -789,7 +1044,7 @@
       "name": "manual_required_fail",
       "description": "manual_required identity review must block production approval.",
       "passed": true,
-      "run_dir": "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/manual_required_fail",
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/manual_required_fail",
       "expected": {
         "finalize_returncode": 1,
         "production_approved": false,
@@ -816,7 +1071,7 @@
       "name": "missing_visual_review_fail",
       "description": "Missing visual-review.json must block production approval.",
       "passed": true,
-      "run_dir": "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/missing_visual_review_fail",
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/missing_visual_review_fail",
       "expected": {
         "finalize_returncode": 1,
         "production_approved": false,
@@ -843,7 +1098,7 @@
       "name": "pass",
       "description": "Evidence-complete run should finalize and validate as production-approved.",
       "passed": true,
-      "run_dir": "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/pass",
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/pass",
       "expected": {
         "finalize_returncode": 0,
         "production_approved": true,
@@ -861,7 +1116,7 @@
       "evidence": [
         "finalize_returncode=0",
         "production_approved=True",
-        "finalize_stdout_last=/private/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/pass",
+        "finalize_stdout_last=/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/pass",
         "validate_admission_returncode=0",
         "validate_admission_stdout_last=PASS: admission validation",
         "validate_manifest_returncode=0",
@@ -872,7 +1127,7 @@
       "name": "retry_budget_identity_drift_pivot",
       "description": "Production approval must fail when retry_tax_report.json requires a route pivot.",
       "passed": true,
-      "run_dir": "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/retry_budget_identity_drift_pivot",
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/retry_budget_identity_drift_pivot",
       "expected": {
         "finalize_returncode": 1,
         "production_approved": false,
@@ -899,7 +1154,7 @@
       "name": "route_selector_missing_report_fail",
       "description": "Production approval must fail when source_route_selection_report.json is missing.",
       "passed": true,
-      "run_dir": "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/route_selector_missing_report_fail",
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/route_selector_missing_report_fail",
       "expected": {
         "finalize_returncode": 1,
         "production_approved": false,
@@ -926,7 +1181,7 @@
       "name": "smoke_fail",
       "description": "Pipeline-smoke route must not be production-approved.",
       "passed": true,
-      "run_dir": "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/smoke_fail",
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/smoke_fail",
       "expected": {
         "finalize_returncode": 1,
         "production_approved": false,
@@ -953,7 +1208,7 @@
       "name": "source_animation_missing_part_map_fail",
       "description": "Source-animation production route must fail when part_map.json is missing.",
       "passed": true,
-      "run_dir": "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/source_animation_missing_part_map_fail",
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/source_animation_missing_part_map_fail",
       "expected": {
         "finalize_returncode": 1,
         "production_approved": false,
@@ -980,7 +1235,7 @@
       "name": "source_animation_part_consistency_fail",
       "description": "Source-animation production route must fail when part_consistency_report.json is not pass.",
       "passed": true,
-      "run_dir": "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/source_animation_part_consistency_fail",
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/source_animation_part_consistency_fail",
       "expected": {
         "finalize_returncode": 1,
         "production_approved": false,
@@ -1007,7 +1262,7 @@
       "name": "tooncrafter_missing_audit_fail",
       "description": "ToonCrafter adapter output must fail production approval when interpolated_segment_audit.json is missing.",
       "passed": true,
-      "run_dir": "/var/folders/f3/gfvf4kzd4lx2pwhz8f3ysx640000gn/T/sofunny_regression_suite_hnvh3ny6/tooncrafter_missing_audit_fail",
+      "run_dir": "/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_57wt1kj2/tooncrafter_missing_audit_fail",
       "expected": {
         "finalize_returncode": 1,
         "production_approved": false,
