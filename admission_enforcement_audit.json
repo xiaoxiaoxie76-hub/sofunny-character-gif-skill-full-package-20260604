@@ -1,7 +1,7 @@
 {
   "schema_version": "sofunny-admission-enforcement-audit.v1",
-  "generated_at": "2026-06-04T21:47:30.974705+00:00",
-  "status": "pass",
+  "generated_at": "2026-06-06T10:55:13.310222+00:00",
+  "status": "warn",
   "skill_root": "/Users/xiexiaoxiao/.codex/skills/sofunny-character-gif",
   "required_artifacts": {
     "by_source": {
@@ -227,7 +227,7 @@
           "visual_stability_report.json"
         ],
         "missing_required_gate_artifacts": [],
-        "uses_non_strict_admission_eligible_check": false
+        "uses_non_strict_admission_eligible_check": true
       },
       "validate_sofunny_manifest.py": {
         "mentions_required_artifacts": [
@@ -276,5 +276,14 @@
       ]
     }
   ],
-  "findings": []
+  "findings": [
+    {
+      "severity": "P1",
+      "title": "validate_sofunny_run.py allows missing admission_eligible",
+      "evidence": [
+        "validate_sofunny_run.py accepts generation.admission_eligible values that are not explicitly false, so missing/None can pass."
+      ],
+      "recommendation": "Require generation.admission_eligible is True for production admission."
+    }
+  ]
 }
