@@ -88,6 +88,10 @@ def validate_planning(run_dir: Path) -> list[str]:
 def validate_admission(run_dir: Path, profile: dict) -> list[str]:
     failures = validate_planning(run_dir)
     manifest = load_required_json(run_dir, "sofunny-run-manifest.json", failures)
+    candidate_boundary = {}
+    boundary_path = run_dir / "candidate_boundary_report.json"
+    if boundary_path.exists():
+        candidate_boundary = load_required_json(run_dir, "candidate_boundary_report.json", failures)
     reports = {filename: load_required_json(run_dir, filename, failures) for filename in REQUIRED_ADMISSION_REPORTS}
     style = reports["style_lock_report.json"]
     jitter = reports["jitter_diagnostics.json"]
@@ -103,6 +107,13 @@ def validate_admission(run_dir: Path, profile: dict) -> list[str]:
     freeze_report = reports["keypose_freeze_report.json"]
     locked_export = reports["locked_gif_export_report.json"]
     enforcement_statuses = production_enforcement_statuses(run_dir)
+    generation = manifest.get("generation", {})
+    diagnostic_route = str(generation.get("route", "")).startswith("diagnostic_")
+    require(candidate_boundary.get("status") != "diagnostic_only", "diagnostic-only candidate boundary cannot be used for production admission", failures)
+    require(candidate_boundary.get("admission_eligible") is not False, "candidate_boundary_report.admission_eligible=false blocks production admission", failures)
+    require(generation.get("diagnostic_only") is not True, "manifest generation.diagnostic_only=true blocks production admission", failures)
+    require(not diagnostic_route, f"diagnostic route cannot be used for production admission: {generation.get('route')}", failures)
+    require(generation.get("ad_hoc_local_generator") is not True, "ad-hoc local generator output cannot be used for production admission", failures)
 
     for artifact in REQUIRED_ADMISSION_ARTIFACTS:
         require((run_dir / artifact).exists(), f"{artifact} is required for admission", failures)
@@ -162,12 +173,12 @@ def validate_admission(run_dir: Path, profile: dict) -> list[str]:
     require(identity_feature.get("status") == "pass", "identity_feature_lock_report.status must be pass", failures)
     require(component_integrity.get("status") == "pass", "component_integrity_report.status must be pass", failures)
     require(lively_motion.get("status") == "pass", "lively_motion_report.status must be pass", failures)
-    route = manifest.get("generation", {}).get("route")
+    route = generation.get("route")
     if str(route).lower() == "prop_action_component_route":
         prop_action_contact = load_required_json(run_dir, "prop_action_contact_report.json", failures)
         require(prop_action_contact.get("status") == "pass", "prop_action_contact_report.status must be pass", failures)
-    require(manifest.get("generation", {}).get("admission_eligible") is True, "candidate route must be admission-eligible", failures)
-    require(manifest.get("generation", {}).get("reference_used_for_generation") is True, "canonical reference must be used for generation before production admission", failures)
+    require(generation.get("admission_eligible") is True, "candidate route must be admission-eligible", failures)
+    require(generation.get("reference_used_for_generation") is True, "canonical reference must be used for generation before production admission", failures)
     require(manifest.get("verdict", {}).get("production_approved") is True, "manifest verdict.production_approved must be true for admission", failures)
     require(action_report.get("status") == "pass", "action_validation_report.status must be pass", failures)
     require(visual.get("contact_sheet_reviewed") is True, "visual-review must confirm contact sheet review", failures)
