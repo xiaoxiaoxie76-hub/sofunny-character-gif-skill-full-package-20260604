@@ -3,6 +3,8 @@
 ./PACKAGE_INDEX.txt
 ./README.md
 ./SKILL.md
+./action_contracts/gentle_bow_flower_sway.json
+./action_contracts/stable_greeting_idle.json
 ./admission_enforcement_audit.json
 ./admission_enforcement_audit.md
 ./agents/openai.yaml
@@ -10,11 +12,14 @@
 ./profiles/sofunny-lively-motion.json
 ./profiles/sofunny.json
 ./references/action-component-plan.md
+./references/action-contract-schema.md
 ./references/admission-gates.md
 ./references/animatex-provider-route.md
 ./references/component-integrity-contract.md
 ./references/contracts.md
+./references/diagnostic-preview-contract.md
 ./references/external-adapter-license-notes.md
+./references/external-pose-animation-adapters.md
 ./references/failure-routing.md
 ./references/future-rigging-research-notes.md
 ./references/generation-attempt-budget.md
@@ -56,6 +61,7 @@
 ./requirements.txt
 ./scripts/add_lively_inbetweens.py
 ./scripts/add_secondary_motion_pass.py
+./scripts/audit_action_semantics.py
 ./scripts/audit_admission_enforcement.py
 ./scripts/audit_body_core_consistency.py
 ./scripts/audit_body_tail_consistency.py
@@ -75,8 +81,10 @@
 ./scripts/create_action_component_plan.py
 ./scripts/create_animatex_packet.py
 ./scripts/create_asset_driven_provider_packet.py
+./scripts/create_diagnostic_sequence_preview.py
 ./scripts/create_ipadapter_part_repair_packet.py
 ./scripts/create_local_part_repair_packet.py
+./scripts/create_pose_adapter_packet.py
 ./scripts/create_provider_brief.py
 ./scripts/create_provider_packet.py
 ./scripts/create_tooncrafter_packet.py
@@ -89,6 +97,7 @@
 ./scripts/generate_candidate_sheet.py
 ./scripts/generate_component_keyposes.py
 ./scripts/generate_part_motion_curves.py
+./scripts/generate_reference_locked_bow.py
 ./scripts/generate_reference_locked_jog.py
 ./scripts/import_animatex_video_frames.py
 ./scripts/import_candidate_sheet.py
@@ -100,6 +109,7 @@
 ./scripts/interpolate_keyframes_no_ghost.py
 ./scripts/load_profile.py
 ./scripts/make_pose_only_guides.py
+./scripts/measure_character_identity.py
 ./scripts/normalize_alpha_volume.py
 ./scripts/normalize_bbox_size.py
 ./scripts/normalize_candidate_sheet.py
@@ -109,6 +119,7 @@
 ./scripts/retry_tax_report.py
 ./scripts/run_provider_result_gates.py
 ./scripts/run_regression_suite.py
+./scripts/run_sofunny_oneshot.py
 ./scripts/score_identity_consistency.py
 ./scripts/select_motion_reference.py
 ./scripts/select_route_adapter.py
