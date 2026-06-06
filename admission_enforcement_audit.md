@@ -1,7 +1,7 @@
 # Admission Enforcement Audit
 
-Generated: 2026-06-04T21:47:30.974705+00:00
-Status: `pass`
+Generated: 2026-06-06T10:55:13.310222+00:00
+Status: `warn`
 
 ## Required Final Artifacts
 
@@ -104,7 +104,16 @@ Status: `pass`
 
 ## Findings
 
-No enforcement mismatches found.
+### P1: validate_sofunny_run.py allows missing admission_eligible
+
+Evidence:
+
+- validate_sofunny_run.py accepts generation.admission_eligible values that are not explicitly false, so missing/None can pass.
+
+Recommendation:
+
+Require generation.admission_eligible is True for production admission.
+
 ## Negative Tests
 
 ### PASS: missing visual-review.json blocks finalization
@@ -231,7 +240,7 @@ Expected: finalize exits non-zero and does not write production_approved:true
         "visual_stability_report.json"
       ],
       "missing_required_gate_artifacts": [],
-      "uses_non_strict_admission_eligible_check": false
+      "uses_non_strict_admission_eligible_check": true
     },
     "validate_sofunny_manifest.py": {
       "mentions_required_artifacts": [
