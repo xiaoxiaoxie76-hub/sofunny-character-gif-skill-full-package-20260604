@@ -92,6 +92,10 @@ def validate_admission(run_dir: Path, profile: dict) -> list[str]:
     boundary_path = run_dir / "candidate_boundary_report.json"
     if boundary_path.exists():
         candidate_boundary = load_required_json(run_dir, "candidate_boundary_report.json", failures)
+    semantic_capability = {}
+    semantic_capability_path = run_dir / "semantic_capability_report.json"
+    if semantic_capability_path.exists():
+        semantic_capability = load_required_json(run_dir, "semantic_capability_report.json", failures)
     reports = {filename: load_required_json(run_dir, filename, failures) for filename in REQUIRED_ADMISSION_REPORTS}
     style = reports["style_lock_report.json"]
     jitter = reports["jitter_diagnostics.json"]
@@ -114,6 +118,8 @@ def validate_admission(run_dir: Path, profile: dict) -> list[str]:
     require(generation.get("diagnostic_only") is not True, "manifest generation.diagnostic_only=true blocks production admission", failures)
     require(not diagnostic_route, f"diagnostic route cannot be used for production admission: {generation.get('route')}", failures)
     require(generation.get("ad_hoc_local_generator") is not True, "ad-hoc local generator output cannot be used for production admission", failures)
+    if semantic_capability:
+        require(semantic_capability.get("status") == "pass", f"semantic_capability_report.status must be pass for production admission, got {semantic_capability.get('status')}", failures)
 
     for artifact in REQUIRED_ADMISSION_ARTIFACTS:
         require((run_dir / artifact).exists(), f"{artifact} is required for admission", failures)
