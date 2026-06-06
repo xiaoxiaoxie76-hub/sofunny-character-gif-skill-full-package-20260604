@@ -1,6 +1,6 @@
 # Admission Enforcement Audit
 
-Generated: 2026-06-06T10:55:13.310222+00:00
+Generated: 2026-06-06T11:26:17.661418+00:00
 Status: `warn`
 
 ## Required Final Artifacts
