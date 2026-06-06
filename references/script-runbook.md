@@ -7,6 +7,7 @@ SoFunny is the default profile. Add `--profile default-character-gif` or `--prof
 
 - Asset-Driven Provider Packet
 - Run Setup
+- Diagnostic Preview
 - Source Animation MVP
 - Provider Preflight
 - Pose-Only Guides
@@ -110,6 +111,31 @@ python3 /Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/validate_
 ```
 
 Use `--stage admission` only when final visual artifacts exist.
+
+## Diagnostic Preview
+
+Use this only when the user asks to see sequence-frame motion before production source animation exists. The result is always diagnostic-only and cannot be finalized for production.
+
+```bash
+python3 /Users/xiexiaoxiao/.codex/skills/sofunny-character-gif/scripts/create_diagnostic_sequence_preview.py \
+  --run-dir /path/to/run \
+  --reference /path/to/canonical_character.png \
+  --character-name sherry \
+  --action sherry_elegant_front_walk \
+  --frames 16 \
+  --canvas 384x384 \
+  --preset gentle_walk_in_place
+```
+
+Allowed presets:
+
+```text
+whole_body_bounce
+gentle_walk_in_place
+idle_bob
+```
+
+This writes `candidate_boundary_report.json` with `status: diagnostic_only` and `admission_eligible: false`. Do not replace this with one-off `generate_<character>_<action>_sequence.py` scripts in user-facing skill runs.
 
 ## Source Animation MVP
 
