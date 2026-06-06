@@ -1,6 +1,6 @@
 # SoFunny Regression Report
 
-Generated: 2026-06-06T10:55:25.503863+00:00
+Generated: 2026-06-06T11:26:29.388193+00:00
 Status: `pass`
 
 ## Command Checks
@@ -76,7 +76,7 @@ Evidence:
 - add_secondary_motion_pass.py_returncode=0
 - add_secondary_motion_pass.py_stdout_last=}
 - generate_component_keyposes.py_returncode=0
-- generate_component_keyposes.py_stdout_last=/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_jbslonz6/lively_motion_secondary_motion_pass/component_keyposes
+- generate_component_keyposes.py_stdout_last=/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_cmcbqu_y/lively_motion_secondary_motion_pass/component_keyposes
 - audit_part_consistency.py_returncode=0
 - audit_part_consistency.py_stdout_last=PASS: part consistency audit
 - audit_lively_motion.py_returncode=0
@@ -132,7 +132,7 @@ Evidence:
 
 - finalize_returncode=0
 - production_approved=True
-- finalize_stdout_last=/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_jbslonz6/pass
+- finalize_stdout_last=/private/var/folders/w4/6zr8c7wj5z3fdcwvh5wnk7jw0000gn/T/sofunny_regression_suite_cmcbqu_y/pass
 - validate_admission_returncode=0
 - validate_admission_stdout_last=PASS: admission validation
 - validate_manifest_returncode=0
