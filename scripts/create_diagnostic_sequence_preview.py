@@ -20,7 +20,66 @@ from sofunny_anim.previews import save_checker_gif, save_contact_sheet
 from sofunny_anim.profiles import keypose_count, load_profile, phases_for
 
 
+CAPABILITY_REQUIREMENTS = {
+    "foot_articulation": {
+        "walk",
+        "front_walk",
+        "step",
+        "run",
+        "jog",
+        "march",
+        "stride",
+    },
+    "tail_articulation": {
+        "tail",
+        "wag",
+        "sway",
+    },
+    "hand_or_prop_contact": {
+        "hand",
+        "wave",
+        "catch",
+        "petal",
+        "coin",
+        "prop",
+        "deal",
+        "hold",
+        "present",
+        "touch",
+    },
+    "accessory_secondary_motion": {
+        "pearl",
+        "bow",
+        "ribbon",
+        "necklace",
+        "hair",
+        "ear",
+    },
+    "expression_variant": {
+        "blink",
+        "wink",
+        "smile",
+        "eye",
+    },
+}
+
+PRESET_CAPABILITIES = {
+    "whole_body_bounce": {"whole_character_translation", "whole_character_squash"},
+    "gentle_walk_in_place": {"whole_character_translation", "whole_character_squash"},
+    "idle_bob": {"whole_character_translation"},
+}
+
+CAPABILITY_TO_REQUIRED_ROUTE = {
+    "foot_articulation": "source_animation_or_provider_keyposes_with_clean_feet_skirt_masks",
+    "tail_articulation": "source_animation_or_provider_keyposes_with_clean_tail_layer",
+    "hand_or_prop_contact": "provider_keypose_or_masked_local_redraw_with_contact_occlusion",
+    "accessory_secondary_motion": "clean accessory masks/backfill or provider keyposes",
+    "expression_variant": "approved expression variant or clean face mask",
+}
+
+
 def write_json(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
@@ -109,6 +168,35 @@ def build_frames(source: Image.Image, frame_count: int, preset: str) -> tuple[li
     return frames, frame_meta
 
 
+def semantic_capability(action: str, preset: str, force: bool) -> dict:
+    normalized = action.lower().replace("-", "_")
+    matched: dict[str, list[str]] = {}
+    for requirement, tokens in CAPABILITY_REQUIREMENTS.items():
+        hits = sorted(token for token in tokens if token in normalized)
+        if hits:
+            matched[requirement] = hits
+    unsupported = sorted(matched)
+    status = "pass" if not unsupported else "fail"
+    return {
+        "schema_version": "sofunny-diagnostic-semantic-capability.v1",
+        "status": status,
+        "action": action,
+        "preset": preset,
+        "force_diagnostic": force,
+        "preset_capabilities": sorted(PRESET_CAPABILITIES.get(preset, [])),
+        "detected_requirements": matched,
+        "unsupported_requirements": unsupported,
+        "required_routes": {name: CAPABILITY_TO_REQUIRED_ROUTE[name] for name in unsupported},
+        "blocks_sequence_generation": bool(unsupported and not force),
+        "blocks_production_admission": True,
+        "reason": (
+            "diagnostic preview can only move the whole character; target action requires local semantic motion"
+            if unsupported
+            else "diagnostic preview can express this rough whole-character motion direction"
+        ),
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--profile", default="sofunny")
@@ -120,6 +208,11 @@ def main() -> int:
     parser.add_argument("--canvas")
     parser.add_argument("--preset", choices=["whole_body_bounce", "gentle_walk_in_place", "idle_bob"], default="whole_body_bounce")
     parser.add_argument("--duration-ms", type=int, default=60)
+    parser.add_argument(
+        "--force-diagnostic",
+        action="store_true",
+        help="Generate a weak diagnostic preview even when semantic capability is known to be insufficient.",
+    )
     args = parser.parse_args()
 
     profile = load_profile(args.profile)
@@ -135,6 +228,45 @@ def main() -> int:
     source_dir = run_dir / "source"
     frames_dir = run_dir / "sequence_frames"
     briefs_dir = run_dir / "generation_briefs"
+    capability = semantic_capability(args.action, args.preset, args.force_diagnostic)
+    if capability["blocks_sequence_generation"]:
+        run_dir.mkdir(parents=True, exist_ok=True)
+        write_json(run_dir / "semantic_capability_report.json", capability)
+        write_json(
+            run_dir / "candidate_boundary_report.json",
+            {
+                "schema_version": "sofunny-candidate-boundary-report.v1",
+                "status": "fail",
+                "admission_eligible": False,
+                "blocks_production_admission": True,
+                "generator": "create_diagnostic_sequence_preview.py",
+                "reason": capability["reason"],
+                "required_routes": capability["required_routes"],
+                "forbidden_next_steps": ["sequence_preview_claim", "finalize_production", "production_keypose_freeze", "production_locked_export"],
+            },
+        )
+        write_json(
+            run_dir / "diagnostic_preview_report.json",
+            {
+                "schema_version": "sofunny-diagnostic-preview-report.v1",
+                "status": "fail",
+                "diagnostic_only": True,
+                "production_eligible": False,
+                "frame_count": 0,
+                "preset": args.preset,
+                "reason": capability["reason"],
+                "semantic_capability_report": "semantic_capability_report.json",
+            },
+        )
+        (run_dir / "admission_report.md").write_text(
+            "# Admission Report\n\n"
+            "Status: fail\n\n"
+            "Diagnostic preview was blocked because the target action requires local semantic motion that this route cannot express.\n",
+            encoding="utf-8",
+        )
+        print(json.dumps({"status": "fail", "run_dir": str(run_dir), "reason": capability["reason"], "required_routes": capability["required_routes"]}, ensure_ascii=False, indent=2))
+        return 1
+
     for directory in (source_dir, frames_dir, briefs_dir):
         directory.mkdir(parents=True, exist_ok=True)
     for old in frames_dir.glob("*.png"):
@@ -164,6 +296,7 @@ def main() -> int:
         "admission_eligible": False,
         "reference_used_for_generation": True,
         "ad_hoc_local_generator": False,
+        "semantic_capability_status": capability["status"],
     }
     write_json(
         run_dir / "sofunny-run-manifest.json",
@@ -243,19 +376,21 @@ def main() -> int:
         run_dir / "candidate_boundary_report.json",
         {
             "schema_version": "sofunny-candidate-boundary-report.v1",
-            "status": "diagnostic_only",
+            "status": "diagnostic_only" if capability["status"] == "pass" else "fail",
             "admission_eligible": False,
             "blocks_production_admission": True,
             "generator": "create_diagnostic_sequence_preview.py",
             "reason": "diagnostic sequence preview cannot replace source-animation contracts, freeze, locked export, or visual admission",
+            "semantic_capability_report": "semantic_capability_report.json",
             "forbidden_next_steps": ["finalize_production", "production_keypose_freeze", "production_locked_export"],
         },
     )
+    write_json(run_dir / "semantic_capability_report.json", capability)
     write_json(
         run_dir / "diagnostic_preview_report.json",
         {
             "schema_version": "sofunny-diagnostic-preview-report.v1",
-            "status": "pass",
+            "status": "pass" if capability["status"] == "pass" else "fail",
             "diagnostic_only": True,
             "production_eligible": False,
             "frame_count": frame_count,
@@ -267,6 +402,7 @@ def main() -> int:
                 "contact_sheet": "contact_sheet.png",
                 "animation_checker": "animation_checker.gif",
             },
+            "semantic_capability_report": "semantic_capability_report.json",
         },
     )
     write_json(run_dir / "style_lock_report.json", {"status": "draft", "identity_match": "diagnostic_pending", "drift_findings": [], "notes": ["diagnostic preview only"]})
@@ -280,7 +416,14 @@ def main() -> int:
             "identity": "pending",
             "motion": "pending",
             "export_quality": "not_applicable",
-            "required_fixes": ["diagnostic preview must be replaced by production route before admission"],
+            "required_fixes": [
+                "diagnostic preview must be replaced by production route before admission",
+                *(
+                    ["target action semantics exceed diagnostic preview capability; use required route from semantic_capability_report.json"]
+                    if capability["status"] != "pass"
+                    else []
+                ),
+            ],
         },
     )
     (briefs_dir / "keyposes.md").write_text(
@@ -296,8 +439,8 @@ def main() -> int:
         "# Admission Report\n\nStatus: diagnostic_only\n\nThis run is not production-admission eligible.\n",
         encoding="utf-8",
     )
-    print(json.dumps({"status": "diagnostic_only", "run_dir": str(run_dir), "frames": frame_count}, ensure_ascii=False, indent=2))
-    return 0
+    print(json.dumps({"status": "diagnostic_only" if capability["status"] == "pass" else "diagnostic_only_semantic_fail", "run_dir": str(run_dir), "frames": frame_count}, ensure_ascii=False, indent=2))
+    return 0 if capability["status"] == "pass" else 1
 
 
 if __name__ == "__main__":
