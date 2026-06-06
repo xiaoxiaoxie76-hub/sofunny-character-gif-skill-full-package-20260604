@@ -31,6 +31,7 @@ Load only the reference needed for the current task:
 - `references/animatex-provider-route.md`: Animate-X as a large full-body video candidate adapter.
 - `references/external-adapter-license-notes.md`: license, IP, and hosted-upload boundary notes for external adapters.
 - `references/provider-output-contract.md`: exact provider output requirements before import.
+- `references/diagnostic-preview-contract.md`: quick sequence previews before production layers exist; always diagnostic-only.
 - `references/action-contract-schema.md`: reusable action contract shape for non-hardcoded actions.
 - `references/external-pose-animation-adapters.md`: MMPose/DWPose, AnimateAnyone, MagicAnimate, and ToonCrafter adapter boundaries.
 - `references/pose-only-guide-contract.md`: required de-identification rules before using motion references.
@@ -63,6 +64,7 @@ retry/pivot decision: generation-attempt-budget.md + failure-routing.md
 external adapter use: route-adapter-registry.md + external-adapter-license-notes.md + the adapter-specific route reference
 source animation build: source-animation-route.md + identity-parts-contract.md + movable-parts-contract.md + action-component-plan.md + component-integrity-contract.md + lively-motion-contract.md
 provider import/preflight: provider-output-contract.md + pose-only-guide-contract.md
+diagnostic preview: diagnostic-preview-contract.md
 freeze/export: keypose-freeze-gate.md + gif-export-contract.md
 final admission: admission-gates.md + failure-routing.md
 ```
@@ -99,6 +101,7 @@ For internal or unpublished SoFunny IP, choose local ComfyUI, local LoRA, or loc
    Run `select_source_animation_route.py` before provider generation in production/admission runs. Run `retry_tax_report.py` before retrying a failed route; if `pivot_required: true`, do not continue the same route.
 5. Plan source animation: for production GIFs, read `references/source-animation-route.md`; define `part_map.json`, fixed identity parts, movable parts, and action-specific component transforms before keypose generation. Full-frame redraw is smoke-only unless identity drift is acceptable. Use optional liveliness references only when a candidate is stable but mechanically dead.
 6. Generate or import candidate: use `references/provider-output-contract.md`; default keypose counts, canvas, and background come from the active profile. For source animation, generate or repair only approved parts, then assemble keyposes. Use `add_secondary_motion_pass.py` only as targeted repair when liveliness is missing. For IPAdapter local repair, read `references/ipadapter-local-repair-route.md` and constrain edits to the part mask. For ToonCrafter interpolation, read `references/tooncrafter-interpolation-route.md` and use only approved keypose pairs. For Animate-X, read `references/animatex-provider-route.md`; use it only for de-identified large full-body video candidates.
+   If the user only asks to preview motion before production layers exist, use `create_diagnostic_sequence_preview.py`; do not write one-off `generate_<character>_<action>_sequence.py` scripts for user-facing skill output.
 7. Run provider/source preflight: do not import output that fails deterministic layout, frame count, background, bbox, component integrity, part consistency, lively motion, edge, fake-transparency, or checkerboard checks.
    If an adapter route is used, its packet/import/audit report is mandatory before keypose freeze.
 8. Run keypose admission: import/normalize, then audit identity, action, body/tail, placement, and background.
@@ -123,6 +126,8 @@ candidate sheet
 
 Do not use `generate_candidate_sheet.py`, `generate_reference_locked_jog.py`, `generate_reference_locked_bow.py`, or `generate_atlas_retargeted_jog.py` as a default user-facing fallback. These are diagnostic smoke routes only unless the reference explicitly marks the output admission-eligible. If provider/model sheet import fails, regenerate or re-import a valid sheet; do not silently return local pseudo-rig output.
 
+For quick motion previews, use `scripts/create_diagnostic_sequence_preview.py`. Its output is always `diagnostic_only` and `admission_eligible: false`; it may help choose an action direction, but it cannot enter production freeze, locked export, finalization, or admission.
+
 For fixed-cell sprite output, pass accepted SoFunny-gated frames or strips to `game-character-sprites` packaging conventions only after identity, motion, and admission gates are credible.
 
 ## Admission Boundary
@@ -131,6 +136,7 @@ Never call a run complete if any of these are true:
 
 - no canonical reference was used
 - output is text-only, prompt-only, or procedural placeholder
+- output came from a diagnostic preview or ad-hoc local generator
 - production source animation used full-frame redraw without an explicit smoke-only or identity-drift-acceptable route
 - `part_map.json`, `identity_parts_contract.json`, `movable_parts_contract.json`, or `action_component_plan.json` is required by the route but missing before keypose generation
 - `part_consistency_report.json` is missing or not `pass` for a source-animation route
