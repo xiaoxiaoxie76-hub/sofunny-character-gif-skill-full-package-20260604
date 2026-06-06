@@ -370,6 +370,7 @@ def run_hard_split_component_plan_block_smoke(temp_root: Path) -> CommandResult:
 
 def run_diagnostic_preview_boundary_smoke(temp_root: Path) -> CommandResult:
     run_dir = temp_root / "diagnostic_preview_boundary"
+    blocked_run_dir = temp_root / "diagnostic_preview_front_walk_block"
     input_dir = temp_root / "diagnostic_preview_inputs"
     input_dir.mkdir(parents=True)
     reference = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
@@ -390,7 +391,30 @@ def run_diagnostic_preview_boundary_smoke(temp_root: Path) -> CommandResult:
             "--character-name",
             "fixture_sherry",
             "--action",
-            "fixture_diagnostic_walk",
+            "fixture_bounce_preview",
+            "--frames",
+            "8",
+            "--canvas",
+            "128x128",
+            "--preset",
+            "whole_body_bounce",
+        ],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    blocked = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "create_diagnostic_sequence_preview.py"),
+            "--run-dir",
+            str(blocked_run_dir),
+            "--reference",
+            str(reference_path),
+            "--character-name",
+            "fixture_sherry",
+            "--action",
+            "fixture_elegant_front_walk",
             "--frames",
             "8",
             "--canvas",
@@ -416,13 +440,21 @@ def run_diagnostic_preview_boundary_smoke(temp_root: Path) -> CommandResult:
     )
     ad_hoc_scripts = sorted(path.name for path in run_dir.glob("generate_*.py"))
     boundary = json.loads((run_dir / "candidate_boundary_report.json").read_text(encoding="utf-8"))
+    capability = json.loads((run_dir / "semantic_capability_report.json").read_text(encoding="utf-8"))
+    blocked_boundary = json.loads((blocked_run_dir / "candidate_boundary_report.json").read_text(encoding="utf-8"))
+    blocked_capability = json.loads((blocked_run_dir / "semantic_capability_report.json").read_text(encoding="utf-8"))
     output = admission.stdout + admission.stderr
     passed = (
         create.returncode == 0
+        and blocked.returncode == 1
         and planning.returncode == 0
         and admission.returncode == 1
         and boundary.get("status") == "diagnostic_only"
         and boundary.get("admission_eligible") is False
+        and capability.get("status") == "pass"
+        and blocked_boundary.get("status") == "fail"
+        and blocked_capability.get("status") == "fail"
+        and "foot_articulation" in blocked_capability.get("unsupported_requirements", [])
         and "diagnostic-only candidate boundary cannot be used for production admission" in output
         and not ad_hoc_scripts
     )
@@ -433,13 +465,16 @@ def run_diagnostic_preview_boundary_smoke(temp_root: Path) -> CommandResult:
         passed=passed,
         stdout_tail=[
             f"create_returncode={create.returncode}",
+            f"blocked_front_walk_returncode={blocked.returncode}",
             f"planning_returncode={planning.returncode}",
             f"admission_returncode={admission.returncode}",
             f"boundary_status={boundary.get('status')}",
             f"boundary_admission_eligible={boundary.get('admission_eligible')}",
+            f"capability_status={capability.get('status')}",
+            f"blocked_capability_status={blocked_capability.get('status')}",
             f"ad_hoc_scripts={ad_hoc_scripts}",
         ],
-        stderr_tail=(create.stderr + planning.stderr + admission.stderr).strip().splitlines()[-8:] if (create.stderr + planning.stderr + admission.stderr).strip() else [],
+        stderr_tail=(create.stderr + blocked.stderr + planning.stderr + admission.stderr).strip().splitlines()[-8:] if (create.stderr + blocked.stderr + planning.stderr + admission.stderr).strip() else [],
     )
 
 
