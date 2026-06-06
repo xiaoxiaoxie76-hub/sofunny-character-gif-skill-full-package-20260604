@@ -368,6 +368,81 @@ def run_hard_split_component_plan_block_smoke(temp_root: Path) -> CommandResult:
     )
 
 
+def run_diagnostic_preview_boundary_smoke(temp_root: Path) -> CommandResult:
+    run_dir = temp_root / "diagnostic_preview_boundary"
+    input_dir = temp_root / "diagnostic_preview_inputs"
+    input_dir.mkdir(parents=True)
+    reference = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(reference)
+    draw.ellipse((32, 18, 96, 82), fill=(240, 198, 128, 255), outline=(50, 50, 50, 255), width=3)
+    draw.rectangle((44, 82, 84, 118), fill=(120, 80, 170, 255), outline=(50, 50, 50, 255), width=3)
+    reference_path = input_dir / "reference.png"
+    reference.save(reference_path)
+
+    create = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "create_diagnostic_sequence_preview.py"),
+            "--run-dir",
+            str(run_dir),
+            "--reference",
+            str(reference_path),
+            "--character-name",
+            "fixture_sherry",
+            "--action",
+            "fixture_diagnostic_walk",
+            "--frames",
+            "8",
+            "--canvas",
+            "128x128",
+            "--preset",
+            "gentle_walk_in_place",
+        ],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    planning = subprocess.run(
+        [sys.executable, str(ROOT / "scripts" / "validate_sofunny_run.py"), "--run-dir", str(run_dir), "--stage", "planning"],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    admission = subprocess.run(
+        [sys.executable, str(ROOT / "scripts" / "validate_sofunny_run.py"), "--run-dir", str(run_dir), "--stage", "admission"],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    ad_hoc_scripts = sorted(path.name for path in run_dir.glob("generate_*.py"))
+    boundary = json.loads((run_dir / "candidate_boundary_report.json").read_text(encoding="utf-8"))
+    output = admission.stdout + admission.stderr
+    passed = (
+        create.returncode == 0
+        and planning.returncode == 0
+        and admission.returncode == 1
+        and boundary.get("status") == "diagnostic_only"
+        and boundary.get("admission_eligible") is False
+        and "diagnostic-only candidate boundary cannot be used for production admission" in output
+        and not ad_hoc_scripts
+    )
+    return CommandResult(
+        name="diagnostic_preview_boundary_smoke",
+        command=["diagnostic_preview_boundary_smoke"],
+        returncode=0 if passed else admission.returncode,
+        passed=passed,
+        stdout_tail=[
+            f"create_returncode={create.returncode}",
+            f"planning_returncode={planning.returncode}",
+            f"admission_returncode={admission.returncode}",
+            f"boundary_status={boundary.get('status')}",
+            f"boundary_admission_eligible={boundary.get('admission_eligible')}",
+            f"ad_hoc_scripts={ad_hoc_scripts}",
+        ],
+        stderr_tail=(create.stderr + planning.stderr + admission.stderr).strip().splitlines()[-8:] if (create.stderr + planning.stderr + admission.stderr).strip() else [],
+    )
+
+
 def run_catch_falling_petal_hard_split_blocks_smoke(temp_root: Path) -> CommandResult:
     run_dir = temp_root / "catch_falling_petal_hard_split_block"
     parts_dir = run_dir / "parts"
@@ -1710,6 +1785,7 @@ def main() -> int:
         run_tooncrafter_smoke(temp_root),
         run_ipadapter_smoke(temp_root),
         run_animatex_smoke(temp_root),
+        run_diagnostic_preview_boundary_smoke(temp_root),
         run_hard_split_component_plan_block_smoke(temp_root),
         run_catch_falling_petal_hard_split_blocks_smoke(temp_root),
         run_component_generation_gate_smoke(temp_root),
